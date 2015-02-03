@@ -1,5 +1,6 @@
 package com.github.opentwitchbotteam.otbproject.proc;
 
+import com.github.opentwitchbotteam.otbproject.App;
 import com.github.opentwitchbotteam.otbproject.commands.Alias;
 import com.github.opentwitchbotteam.otbproject.commands.AliasFields;
 import com.github.opentwitchbotteam.otbproject.commands.Command;
@@ -37,8 +38,7 @@ public class CommandProcessor {
             }
         }
         catch (SQLException e) {
-            // TODO log
-            e.printStackTrace();
+            App.logger.catching(e);
         }
 
         // Return message if not an alias
@@ -75,8 +75,7 @@ public class CommandProcessor {
             }
         }
         catch (SQLException e) {
-            // TODO log
-            e.printStackTrace();
+            App.logger.catching(e);
         }
 
         return "";
