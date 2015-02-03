@@ -14,6 +14,7 @@ public class CommandFields {
     public static final String USER_LEVEL_MODIFYING_UL = "userLevelModifyingUL";
     public static final String SCRIPT = "script";
     public static final String ENABLED = "enabled";
+    public static final String DEBUG = "debug"; // If true, only sends if channel set for debug
 
     public static final String TABLE_NAME = "tblCommands";
 
@@ -30,6 +31,7 @@ public class CommandFields {
         commandFields.put(USER_LEVEL_MODIFYING_UL, "Text");
         commandFields.put(SCRIPT, "Text");
         commandFields.put(ENABLED, "Integer");
+        commandFields.put(DEBUG, "Integer");
 
         return commandFields;
     }
