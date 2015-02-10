@@ -29,10 +29,11 @@ public class App {
     public static CustomBot bot;
     public static final Logger logger = LogManager.getLogger();
     public static void main(String[] args) {
+        System.setProperty("OTBCONF", FSUtil.logsDir());
+
         // TODO remove before release
         DevHelper.run(args);
 
-        System.setProperty("OTBCONF", FSUtil.logsDir());
         Account account = JsonHandler.readValue(FSUtil.configDir()+ File.separator+"account.json", Account.class);
         if (account == null){
             account = DefaultConfigGenerator.createAccountConfig();
