@@ -11,6 +11,7 @@ import com.github.otbproject.otbproject.eventlistener.IrcListener;
 import com.github.otbproject.otbproject.fs.FSUtil;
 import com.github.otbproject.otbproject.fs.Setup;
 import com.github.otbproject.otbproject.gui.Window;
+import com.github.otbproject.otbproject.util.InputParserImproved;
 import com.github.otbproject.otbproject.util.UnPacker;
 import com.github.otbproject.otbproject.util.VersionClass;
 import com.github.otbproject.otbproject.util.dev.DevHelper;
@@ -25,6 +26,7 @@ import org.pircbotx.hooks.Listener;
 import java.awt.*;
 import java.io.*;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
@@ -62,7 +64,7 @@ public class App {
     }
 
 
-    public static void doMain(String[] args){
+    public static void doMain(String[] args) throws NoSuchFieldException, IllegalAccessException {
         CommandLine cmd;
         try {
             cmd = ArgParser.parse(args);
@@ -169,7 +171,10 @@ public class App {
 
         logger.info("Bot configuration built");
         bot = new CustomBot(configuration);
-
+        Class c = bot.getClass().getSuperclass();
+        Field input = c.getDeclaredField("inputParser");
+        input.setAccessible(true);
+        input.set(bot, new InputParserImproved(bot));
         // Store configs
         bot.configManager.setAccount(account);
         bot.configManager.setGeneralConfig(generalConfig);
