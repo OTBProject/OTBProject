@@ -44,13 +44,14 @@ public class BeamChatChannel {
             e.printStackTrace();
         }
         if (connected) {
-            beamChatConnectable.send(AuthenticateMessage.from(beamBot.beamUser.channel, beamBot.beamUser, beamChat.authkey));
+            beamChatConnectable.send(AuthenticateMessage.from(channel, beamBot.beamUser, beamChat.authkey));
             try {
                 Thread.sleep(200);// needed to allow the authentication
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             beamChatConnectable.on(IncomingMessageEvent.class, new MessageHandler(channelName));
+            App.logger.info("Connected to: " + channelName);
 
         }
     }
