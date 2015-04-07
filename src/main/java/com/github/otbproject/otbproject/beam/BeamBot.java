@@ -7,6 +7,7 @@ import com.github.otbproject.otbproject.api.APIDatabase;
 import com.github.otbproject.otbproject.bot.IBot;
 import com.github.otbproject.otbproject.channels.Channel;
 import com.github.otbproject.otbproject.database.DatabaseWrapper;
+import com.github.otbproject.otbproject.proc.CooldownSet;
 import pro.beam.api.BeamAPI;
 import pro.beam.api.resource.BeamUser;
 import pro.beam.api.resource.chat.methods.ChatSendMethod;
@@ -22,6 +23,9 @@ import java.util.concurrent.ExecutionException;
 public class BeamBot implements IBot {
     private HashMap<String, Channel> channels = new HashMap<>();
     private final DatabaseWrapper botDB = APIDatabase.getBotDatabase();
+
+    public final CooldownSet sentMessageCache = new CooldownSet();
+    private static final int CACHE_TIME = 4;
 
     BeamAPI beam = new BeamAPI();
     BeamUser beamUser;
@@ -102,6 +106,7 @@ public class BeamBot implements IBot {
     @Override
     public void sendMessage(String channel, String message) {
         beamChannels.get(channel).beamChatConnectable.send(ChatSendMethod.of(message));
+        sentMessageCache.add(message, CACHE_TIME);
     }
 
     @Override
