@@ -107,6 +107,7 @@ public class BeamBot implements IBot {
     public void sendMessage(String channel, String message) {
         beamChannels.get(channel).beamChatConnectable.send(ChatSendMethod.of(message));
         sentMessageCache.add(message, CACHE_TIME);
+        App.logger.info("Sent: <" + channel + "> " + message);
     }
 
     @Override
