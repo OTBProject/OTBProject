@@ -1,6 +1,7 @@
 package com.github.otbproject.otbproject.commands.parser;
 
 import com.github.otbproject.otbproject.api.APIChannel;
+import com.github.otbproject.otbproject.api.APIConfig;
 import com.github.otbproject.otbproject.quotes.Quote;
 import com.github.otbproject.otbproject.quotes.Quotes;
 
@@ -140,6 +141,10 @@ public class CommandResponseParser {
                 return getEmbeddedString(term, 3);
             }
             return getEmbeddedString(term, 4);
+        }
+        // [[service]]
+        else if (isTerm(term, "service")) {
+            return doModifier(ResponseParserUtil.firstCap(APIConfig.getGeneralConfig().getServiceName().toString(), true), term);
         } else {
             throw new InvalidTermException();
         }
