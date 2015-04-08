@@ -346,6 +346,12 @@ public class ParserTest {
         assertEquals(11, args.length);
         parsed = CommandResponseParser.parse(USER, CHANNEL, COUNT, args, TS + "arg11" + TE);
         assertEquals("11", parsed);
+
+        // Non-number arg in rawMsg
+        rawMsg = TS + "argNotANumber" + TE;
+        parsed = CommandResponseParser.parse(USER, CHANNEL, COUNT, args, rawMsg);
+        assertEquals(rawMsg, parsed);
+
     }
 
     @Test
@@ -427,6 +433,15 @@ public class ParserTest {
 
         parsed = CommandResponseParser.parse("the_lone_devil", CHANNEL, COUNT, args, rawMsg);
         assertEquals("Hi Justin!", parsed);
+    }
+
+    @Test
+    // Test some limited aspects of [[quote]]
+    public void quoteTest() {
+        String rawMsg = "Quote: <[[quote{{[[arg1]]}}]]>";
+        String[] args = "not_a_number".split(" ");
+        String parsed = CommandResponseParser.parse(USER, CHANNEL, COUNT, args, rawMsg);
+        assertEquals("Quote: <>", parsed);
     }
 
     @Test
