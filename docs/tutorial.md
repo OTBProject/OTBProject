@@ -22,7 +22,7 @@ Corresponds to release 1.0.0
 
 #### Starting Out
 
-Before being able to modify configurations or other data for the bot, you need to run it once so that it can set up all the files it needs. It will not actually connect to Twitch however, because it does not have your account information, so you can stop the bot after the window pops up. It may take several seconds for the window to pop up the first time you run the bot.
+Before being able to modify configurations or other data for the bot, you need to run it once so that it can set up all the files it needs. It will not actually connect to Twitch or Beam however, because it does not have your account information, so you can stop the bot after the window pops up. It may take several seconds for the window to pop up the first time you run the bot.
 
 #### Finding Your Installation Directory
 
@@ -32,11 +32,11 @@ After this point, all paths will be denoted within the `.otbproject` installatio
 
 #### Setting Your Account Information
 
-To set your account information, you need to modify the account configuration file. You can find the account configuration file at `.otbproject/config/account.json`. You can edit the file in any text editor (Notepad on Windows, for example). Set your username and oauth token in the file, preferably while the bot is not running, and save the file. When you next run the bot, it will use that username and oauth token to connect to Twitch. See the [config documentation](config-documentation.md#account) for more information.
+To set your account information, you need to modify the account configuration file. Depending what service you are using, you can find the account configuration file at `.otbproject/config/account-twitch.json` or `.otbproject/config/account-beam.json`. You can edit the file in any text editor (Notepad on Windows, for example). Set your username and passkey in the file, preferably while the bot is not running, and save the file. When you next run the bot, it will use that username and passkey to connect to Twitch or Beam. See the [config documentation](config-documentation.md#account) for more information about what passkey to use for each service.
 
 #### Changing the Channel Join Setting
 
-By default, the bot will join the channels of anyone who runs the `!join` command in the bot's channel. For a number of reasons, you may not want anyone to be able to use your bot. You can use a whitelist to decide which channels the bot can join by running commands in the bot's Twitch channel, or by modifying the bot configuration file.
+By default, the bot will join the channels of anyone who runs the `!join` command in the bot's channel. For a number of reasons, you may not want anyone to be able to use your bot. You can use a whitelist to decide which channels the bot can join by running commands in the bot's channel, or by modifying the bot configuration file.
 
 ###### Running Chat Commands
 
