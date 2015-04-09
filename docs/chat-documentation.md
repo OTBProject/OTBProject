@@ -72,6 +72,16 @@ Each channel by default has script commands to add and remove commands and alias
 |`!bot-enable-meta` `false`|||Disables the bot in the channel. It will not respond to any commands (both by running scripts and printing responses in chat) except the command to enable it.|Super-moderator|
 |`!bot-enable-meta` `true`|||Enables the bot in the channel.|Super-moderator|
 |`!leave`||`<bot name>`|Makes the bot leave the channel. Its name must be specified in case other bots are running in the channel (such as the Monstercat bot), and you want a different bot to leave.|Super-moderator|
+|`!quote` `add | new`||`<quote text>`|Adds a new quote with the specified text. A quote with the same text cannot already exist.|Moderator|
+|`!quote` `remove | delete | del | rm`||`<quote id>`|Removes the quote with the specified ID, if it exists.|Moderator|
+|`!quote` `list | listids | ids`|||Lists the IDs of all quotes.|Moderator|
+|`!quote` `getid`||`<quote text>`|Prints the ID of the quote with the given text, if it exists.|Moderator|
+
+Additionally, there is also a `!getQuote` command which does not run a script. The special terms used in the response are explained later.
+
+| Command | Response | ExecUL |
+|:--------|:---------|:-------|
+|`!getQuote`|[[quote{{[[arg1]]}}]]|Moderator|
 
 #### Built-in Bot-Channel Commands
 
@@ -204,8 +214,9 @@ There are some special terms which can be used when creating a command to create
 |`[[numargs]]`|The number of arguments with which the command was run.|
 |`[[channel]]`|The channel in which the command was run.|
 |`[[count]]`|The number of times the command has been run since it was created or since it was last modified.|
-|`[[quote]]`|A random quote from the quote database. The quote database is not yet implemented.|
-|`[[game]]`|The name of the game being played (as listed above the twitch stream). Not yet implemented.|
+|`[[quote]]` or `[[quote{{id}}]]`|A random quote from the quote database if no ID is given. If an ID is given, the quote with the specified ID (if it exists; an empty string if it does not exist or the ID is invalid).|
+|`[[service]]`|The name of the service the bot is connected to ("Twitch" or "Beam").|
+|`[[game]]`|The name of the game being played (as listed above the stream). Not yet implemented.|
 
 ####Modifiers
 
