@@ -59,7 +59,7 @@ The account configuration file can be found at:
 | Field | Description |
 |:-----------|:------------|
 |`name`|The name of the Twitch account being used for the bot.|
-|`passKey`|An oauth token associated with the Twitch account. You can generate an oauth token for your account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids any previous token)|
+|`passKey`|For Twitch: an oauth token associated with the Twitch account. For Beam: your beam password (this may be changed to an oauth token at some point). You can generate an oauth token for your Twitch account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids any previous token)|
 
 ## General Config
 
@@ -74,6 +74,7 @@ The general configuration file can be found at:
 
 ```json
 {
+  "serviceName": "TWITCH"
   "portNumber" : 80,
   "ip_binding" : "0.0.0.0",
   "permanently_enabled_commands" : [ "!bot-enable-meta" ]
@@ -84,6 +85,7 @@ The general configuration file can be found at:
 
 | Field | Description |
 |:-----------|:------------|
+|`serviceName`|The name of the service to connect to. Valid options are `"TWITCH"` AND `"BEAM"`.
 |`portNumber`|Not currently in use.|
 |`ip_binding`|Not currently in use.|
 |`permanently_enabled_commands`|A list of commands which the bot will listen for even when it is disabled.|
