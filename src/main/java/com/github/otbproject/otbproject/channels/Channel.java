@@ -47,7 +47,7 @@ public class Channel {
             return false;
         }
 
-        // Just in case a message got added after it was emptied in a leave() call due to bad thread timing
+        // Just in case a message got added after queue was emptied in a leave() call due to bad thread timing
         sendQueue.clear();
         receiveQueue.clear();
 

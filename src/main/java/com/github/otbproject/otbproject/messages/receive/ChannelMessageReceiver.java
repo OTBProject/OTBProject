@@ -48,7 +48,7 @@ public class ChannelMessageReceiver implements Runnable {
                 } else {
                     internal = false;
                     destChannel = APIChannel.get(packagedMessage.getDestinationChannel());
-                    if (destChannel == null) {
+                    if (destChannel == null || !APIChannel.in(destChannelName)) {
                         App.logger.warn("Attempted to process message to be sent in channel in which bot is not listening: " + destChannelName);
                         continue;
                     }
@@ -109,7 +109,7 @@ public class ChannelMessageReceiver implements Runnable {
                 new InternalMessageSender(destinationChannelName.replace(InternalMessageSender.DESTINATION_PREFIX, ""), messageOut.getMessage()).sendMessage();
             }
             // If queue rejects message because it's too full, return
-            else if (!destinationChannel.sendQueue.add(messageOut)) {
+            else if (!APIChannel.in(destinationChannelName) || !destinationChannel.sendQueue.add(messageOut)) {
                 return;
             }
         }
