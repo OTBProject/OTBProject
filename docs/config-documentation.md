@@ -50,7 +50,7 @@ The account configuration file can be found at:
 ```json
 {
   "name" : "your_name_here",
-  "passKey" : "oauth:some_characters_here"
+  "passKey" : "your_passkey_here"
 }
 ```
 
