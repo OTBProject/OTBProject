@@ -157,6 +157,7 @@ Aliases will not loop; they will only be expanded once. For example, if you alia
 |`!enable-bot`|`!bot-enable-meta true`|
 |`!bot-disable`|`!bot-enable-meta false`|
 |`!disable-bot`|`!bot-enable-meta false`|
+|`!quotes`|`!quote`|
 
 #### Command Responses
 
@@ -198,6 +199,10 @@ Because script commands can have multiple outcomes, they send responses to chat 
 |`~%whitelist.remove.success`|A channel was removed from the channel join whitelist.|Removed '[[arg1]]' from the whitelist.|
 |`~%blacklist.add.success`|A channel was added to the channel join blacklist.|Added '[[arg1]]' to the blacklist.|
 |`~%blacklist.remove.success`|A channel was removed from the channel join blacklist.|Removed '[[arg1]]' from the blacklist.|
+|`~%quote.add.already.exists`|A quote with the exact text of the quote a user attepted to add is already in the quote database.|That quote already exists. Congrats on typing it exactly the same way.|
+|`~%quote.add.success`|Successfully added a quote.|Added quote with ID '[[arg1]]'.|
+|`~%quote.remove.success`|Successfully removed a quote.|Removed quote with ID '[[arg1]]'.|
+|`~%quote.does.not.exist`|Some opperation could not be performed because the provided quote does not exist.|No such quote [[args]].|
 
 ##Special Terms
 
