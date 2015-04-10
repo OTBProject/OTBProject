@@ -74,7 +74,7 @@ The general configuration file can be found at:
 
 ```json
 {
-  "serviceName": "TWITCH"
+  "serviceName": "TWITCH",
   "portNumber" : 80,
   "ip_binding" : "0.0.0.0",
   "permanently_enabled_commands" : [ "!bot-enable-meta" ]
