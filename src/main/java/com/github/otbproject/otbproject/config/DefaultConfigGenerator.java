@@ -5,7 +5,7 @@ public class DefaultConfigGenerator {
     public static Account createAccountConfig() {
         Account account = new Account();
         account.setName("your_name_here");
-        account.setPassKey("your_passkey_here");
+        account.setPasskey("your_passkey_here");
 
         return account;
     }

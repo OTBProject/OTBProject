@@ -14,8 +14,8 @@ public class ConfigValidator {
             validatedAccount.setName(defaultAccount.getName());
         }
 
-        if (validatedAccount.getPassKey() == null) {
-            validatedAccount.setName(defaultAccount.getPassKey());
+        if (validatedAccount.getPasskey() == null) {
+            validatedAccount.setName(defaultAccount.getPasskey());
         }
 
         return validatedAccount;

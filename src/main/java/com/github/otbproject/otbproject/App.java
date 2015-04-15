@@ -219,7 +219,7 @@ public class App {
             account.setName(cmd.getOptionValue(ArgParser.Opts.ACCOUNT));
         }
         if (cmd.hasOption(ArgParser.Opts.PASSKEY)) {
-            account.setPassKey(cmd.getOptionValue(ArgParser.Opts.PASSKEY));
+            account.setPasskey(cmd.getOptionValue(ArgParser.Opts.PASSKEY));
         }
         configManager.setAccount(account);
         APIConfig.writeAccount();

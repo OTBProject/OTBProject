@@ -50,7 +50,7 @@ The account configuration file can be found at:
 ```json
 {
   "name" : "your_name_here",
-  "passKey" : "your_passkey_here"
+  "passkey" : "your_passkey_here"
 }
 ```
 
@@ -59,7 +59,7 @@ The account configuration file can be found at:
 | Field | Description |
 |:-----------|:------------|
 |`name`|The name of the Twitch account being used for the bot.|
-|`passKey`|For Twitch: an oauth token associated with the Twitch account. For Beam: the password for the Beam account (this may be changed to an oauth token at some point). You can generate an oauth token for your Twitch account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids previous tokens)|
+|`passkey`|For Twitch: an oauth token associated with the Twitch account. For Beam: the password for the Beam account (this may be changed to an oauth token at some point). You can generate an oauth token for your Twitch account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids previous tokens)|
 
 ## General Config
 

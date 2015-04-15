@@ -33,7 +33,7 @@ public class BeamBot implements IBot {
 
     public BeamBot() {
         try {
-            beamUser = beam.use(UsersService.class).login(APIConfig.getAccount().getName(), APIConfig.getAccount().getPassKey()).get();
+            beamUser = beam.use(UsersService.class).login(APIConfig.getAccount().getName(), APIConfig.getAccount().getPasskey()).get();
         } catch (InterruptedException | ExecutionException e) {
             App.logger.catching(e);
         }

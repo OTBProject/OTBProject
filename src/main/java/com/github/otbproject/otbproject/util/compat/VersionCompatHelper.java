@@ -26,7 +26,7 @@ public class VersionCompatHelper {
             }
             Account accountNew = new Account();
             accountNew.setName(accountOld.getName());
-            accountNew.setPassKey(accountOld.getOauth());
+            accountNew.setPasskey(accountOld.getOauth());
             JsonHandler.writeValue(twitchAccountFilePath, accountNew);
             // Not sure if need to recreate File for this
             if (new File(twitchAccountFilePath).exists()) {
