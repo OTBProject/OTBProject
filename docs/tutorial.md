@@ -39,6 +39,10 @@ After this point, all paths will be denoted within the `.otbproject` installatio
 
 To set your account information, you need to modify the account configuration file. Depending what service you are using, you can find the account configuration file at `.otbproject/config/account-twitch.json` or `.otbproject/config/account-beam.json`. You can edit the file in any text editor (Notepad on Windows, for example). Set your username and passkey in the file, preferably while the bot is not running, and save the file. When you next run the bot, it will use that username and passkey to connect to Twitch or Beam. See the [config documentation](config-documentation.html#account) for more information about what passkey to use for each service.
 
+#### Changing the Service
+
+If you want the bot to connect to Beam, you need to modify the general configuration file, which you can find at `.otbproject/config/general-config.json`. In that file, set the service name to `"BEAM"`, and save the file. Preferably, this should be done while the bot is not running. See the [config documentation](config-documentation.html#general-config) for more inforation about changing which service is used.
+
 #### Changing the Channel Join Setting
 
 By default, the bot will join the channels of anyone who runs the `!join` command in the bot's channel. For a number of reasons, you may not want anyone to be able to use your bot. You can use a whitelist to decide which channels the bot can join by running commands in the bot's channel, or by modifying the bot configuration file.
