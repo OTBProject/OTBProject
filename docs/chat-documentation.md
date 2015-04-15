@@ -1,7 +1,13 @@
-#OTB Project Documentation
-###Interacting with a Bot in Chat
+---
+title: Chat Documentation
+layout: markdown
+---
 
-##Table of Contents
+# OTB Project Documentation
+
+### Interacting with a Bot in Chat
+
+## Table of Contents
 
 
 - [Version](#version)
@@ -20,11 +26,11 @@
 	- [Embedded Strings](#embedded-strings)
 	- [Examples](#examples)
 
-##Version
+## Version
 
 Version 0.2.0
 
-####Changelog
+#### Changelog
 
 * 0.2.0
   - Release 1.0.0
@@ -38,7 +44,7 @@ Version 0.2.0
 * 0.1.0
   - Described special terms and their modifiers; gave examples of both
 
-##Commands
+## Commands
 
 Commands are words which the bot will respond to if they are the first word in a message. Commands often start with an exclamation mark, such as `!example`, but they can be any string of characters without a space in them. Some commands can tell the bot to perform an action, instead of just printing a message in response; these are known as "script commands".
 

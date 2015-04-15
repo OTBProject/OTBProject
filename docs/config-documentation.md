@@ -1,4 +1,9 @@
+---
+title: Config Documentation
+layout: markdown
+---
 # OTB Project Documentation
+
 ### Understanding and Modifying Configuration Files
 
 ## Table of Contents
