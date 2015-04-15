@@ -1,7 +1,13 @@
-#OTB Project Documentation
-###Interacting with a Bot in Chat
+---
+title: Chat Documentation
+layout: markdown
+---
 
-##Table of Contents
+# OTB Project Documentation
+
+### Interacting with a Bot in Chat
+
+## Table of Contents
 
 
 - [Version](#version)
@@ -20,11 +26,11 @@
 	- [Embedded Strings](#embedded-strings)
 	- [Examples](#examples)
 
-##Version
+## Version
 
 Version 0.2.0
 
-####Changelog
+#### Changelog
 
 * 0.2.0
   - Release 1.0.0
@@ -38,7 +44,7 @@ Version 0.2.0
 * 0.1.0
   - Described special terms and their modifiers; gave examples of both
 
-##Commands
+## Commands
 
 Commands are words which the bot will respond to if they are the first word in a message. Commands often start with an exclamation mark, such as `!example`, but they can be any string of characters without a space in them. Some commands can tell the bot to perform an action, instead of just printing a message in response; these are known as "script commands".
 
@@ -72,6 +78,16 @@ Each channel by default has script commands to add and remove commands and alias
 |`!bot-enable-meta` `false`|||Disables the bot in the channel. It will not respond to any commands (both by running scripts and printing responses in chat) except the command to enable it.|Super-moderator|
 |`!bot-enable-meta` `true`|||Enables the bot in the channel.|Super-moderator|
 |`!leave`||`<bot name>`|Makes the bot leave the channel. Its name must be specified in case other bots are running in the channel (such as the Monstercat bot), and you want a different bot to leave.|Super-moderator|
+|`!quote` `add | new`||`<quote text>`|Adds a new quote with the specified text. A quote with the same text cannot already exist.|Moderator|
+|`!quote` `remove | delete | del | rm`||`<quote id>`|Removes the quote with the specified ID, if it exists.|Moderator|
+|`!quote` `list | listids | ids`|||Lists the IDs of all quotes.|Moderator|
+|`!quote` `getid`||`<quote text>`|Prints the ID of the quote with the given text, if it exists.|Moderator|
+
+Additionally, there is also a `!getQuote` command which does not run a script. The special terms used in the response are explained later.
+
+| Command | Response | ExecUL |
+|:--------|:---------|:-------|
+|`!getQuote`|[[quote{{[[arg1]]}}]]|Moderator|
 
 #### Built-in Bot-Channel Commands
 
@@ -80,8 +96,8 @@ The bot's channel has its own script commands to perform actions specific to the
 | Command | Flags | Arguments | Description |
 |:--------|:------|:----------|:------------|
 |`!at`||`<channel>` `<command>`|Runs the specified command in the specified channel, and prints the response in the bot's channel. Useful if you don't want to spam a channel's chat while it's streaming.|
-|`!join`|||Joins the channel of the user who ran the command. Respects the join mode, as specified in the [config documentation](config-documentation.md#fields-2).|
-|`!joinMode` `whitelist | blacklist | none`||`<mode>`|Sets the join mode to the mode specified. See the [config documentation](config-documentation.md#fields-2).|
+|`!join`|||Joins the channel of the user who ran the command. Respects the join mode, as specified in the [config documentation](config-documentation.html#fields-2).|
+|`!joinMode` `whitelist | blacklist | none`||`<mode>`|Sets the join mode to the mode specified. See the [config documentation](config-documentation.html#fields-2).|
 |`!whitelist` `add`||`<channel>`|Adds the specified channel to the whitelist of channels which may be joined.|
 |`!whitelist` `remove`||`<channel>`|Removes the specified channel from the whitelist of channels which may be joined.|
 |`!whitelist` `list`|||Lists the channels in the channel join whitelist.|
@@ -147,6 +163,7 @@ Aliases will not loop; they will only be expanded once. For example, if you alia
 |`!enable-bot`|`!bot-enable-meta true`|
 |`!bot-disable`|`!bot-enable-meta false`|
 |`!disable-bot`|`!bot-enable-meta false`|
+|`!quotes`|`!quote`|
 
 #### Command Responses
 
@@ -188,6 +205,10 @@ Because script commands can have multiple outcomes, they send responses to chat 
 |`~%whitelist.remove.success`|A channel was removed from the channel join whitelist.|Removed '[[arg1]]' from the whitelist.|
 |`~%blacklist.add.success`|A channel was added to the channel join blacklist.|Added '[[arg1]]' to the blacklist.|
 |`~%blacklist.remove.success`|A channel was removed from the channel join blacklist.|Removed '[[arg1]]' from the blacklist.|
+|`~%quote.add.already.exists`|A quote with the exact text of the quote a user attepted to add is already in the quote database.|That quote already exists. Congrats on typing it exactly the same way.|
+|`~%quote.add.success`|Successfully added a quote.|Added quote with ID '[[arg1]]'.|
+|`~%quote.remove.success`|Successfully removed a quote.|Removed quote with ID '[[arg1]]'.|
+|`~%quote.does.not.exist`|Some opperation could not be performed because the provided quote does not exist.|No such quote [[args]].|
 
 ##Special Terms
 
@@ -204,8 +225,9 @@ There are some special terms which can be used when creating a command to create
 |`[[numargs]]`|The number of arguments with which the command was run.|
 |`[[channel]]`|The channel in which the command was run.|
 |`[[count]]`|The number of times the command has been run since it was created or since it was last modified.|
-|`[[quote]]`|A random quote from the quote database. The quote database is not yet implemented.|
-|`[[game]]`|The name of the game being played (as listed above the twitch stream). Not yet implemented.|
+|`[[quote]]` or `[[quote{{id}}]]`|A random quote from the quote database if no ID is given. If an ID is given, the quote with the specified ID (if it exists; an empty string if it does not exist or the ID is invalid).|
+|`[[service]]`|The name of the service the bot is connected to ("Twitch" or "Beam").|
+|`[[game]]`|The name of the game being played (as listed above the stream). Not yet implemented.|
 
 ####Modifiers
 

@@ -1,4 +1,9 @@
+---
+title: Config Documentation
+layout: markdown
+---
 # OTB Project Documentation
+
 ### Understanding and Modifying Configuration Files
 
 ## Table of Contents
@@ -36,6 +41,8 @@ Version 0.1.0
 
 Be careful when modifying configuration files. If a configuration file is not in valid JSON format when it is loaded, it will be overwritten with the default configuration file. You can check whether JSON is formatted correctly <a href="http://jsonlint.com/" target="_blank">here</a>.
 
+Additionally, you should not modify configuration files while the bot is running, because the bot may overwrite the changes (and it will not load the changes until it is restarted anyway).
+
 ## Account
 
 #### Path
@@ -50,7 +57,7 @@ The account configuration file can be found at:
 ```json
 {
   "name" : "your_name_here",
-  "passkey" : "oauth:some_characters_here"
+  "passkey" : "your_passkey_here"
 }
 ```
 
@@ -59,7 +66,7 @@ The account configuration file can be found at:
 | Field | Description |
 |:-----------|:------------|
 |`name`|The name of the Twitch account being used for the bot.|
-|`passkey`|An oauth token associated with the Twitch account. You can generate an oauth token for your account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids any previous token)|
+|`passkey`|For Twitch: an oauth token associated with the Twitch account. For Beam: the password for the Beam account (this may be changed to an oauth token at some point). You can generate an oauth token for your Twitch account <a href="http://twitchapps.com/tmi/" target="_blank">here</a>. (Note: generating a new oauth token voids previous tokens)|
 
 ## General Config
 
@@ -74,6 +81,7 @@ The general configuration file can be found at:
 
 ```json
 {
+  "serviceName": "TWITCH",
   "portNumber" : 80,
   "ip_binding" : "0.0.0.0",
   "permanently_enabled_commands" : [ "!bot-enable-meta" ]
@@ -84,6 +92,7 @@ The general configuration file can be found at:
 
 | Field | Description |
 |:-----------|:------------|
+|`serviceName`|The name of the service to connect to. Valid options are `"TWITCH"` AND `"BEAM"`.
 |`portNumber`|Not currently in use.|
 |`ip_binding`|Not currently in use.|
 |`permanently_enabled_commands`|A list of commands which the bot will listen for even when it is disabled.|
