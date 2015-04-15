@@ -41,6 +41,8 @@ Version 0.1.0
 
 Be careful when modifying configuration files. If a configuration file is not in valid JSON format when it is loaded, it will be overwritten with the default configuration file. You can check whether JSON is formatted correctly <a href="http://jsonlint.com/" target="_blank">here</a>.
 
+Additionally, you should not modify configuration files while the bot is running, because the bot may overwrite the changes (and it will not load the changes until it is restarted anyway).
+
 ## Account
 
 #### Path
