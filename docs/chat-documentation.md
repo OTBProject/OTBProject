@@ -96,8 +96,8 @@ The bot's channel has its own script commands to perform actions specific to the
 | Command | Flags | Arguments | Description |
 |:--------|:------|:----------|:------------|
 |`!at`||`<channel>` `<command>`|Runs the specified command in the specified channel, and prints the response in the bot's channel. Useful if you don't want to spam a channel's chat while it's streaming.|
-|`!join`|||Joins the channel of the user who ran the command. Respects the join mode, as specified in the [config documentation](config-documentation.md#fields-2).|
-|`!joinMode` `whitelist | blacklist | none`||`<mode>`|Sets the join mode to the mode specified. See the [config documentation](config-documentation.md#fields-2).|
+|`!join`|||Joins the channel of the user who ran the command. Respects the join mode, as specified in the [config documentation](config-documentation.html#fields-2).|
+|`!joinMode` `whitelist | blacklist | none`||`<mode>`|Sets the join mode to the mode specified. See the [config documentation](config-documentation.html#fields-2).|
 |`!whitelist` `add`||`<channel>`|Adds the specified channel to the whitelist of channels which may be joined.|
 |`!whitelist` `remove`||`<channel>`|Removes the specified channel from the whitelist of channels which may be joined.|
 |`!whitelist` `list`|||Lists the channels in the channel join whitelist.|
