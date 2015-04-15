@@ -1,4 +1,9 @@
+---
+title: Chat Documentation
+layout: markdown
+---
 #OTB Project Documentation
+
 ###Interacting with a Bot in Chat
 
 ##Table of Contents

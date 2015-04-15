@@ -1,4 +1,9 @@
+---
+title: Tutorial
+layout: markdown
+---
 # OTB Project Documentation
+
 ### Tutorial: How to Run a Bot
 
 ## Table of Contents
