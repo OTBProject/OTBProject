@@ -10,6 +10,7 @@ import com.github.otbproject.otbproject.commands.loader.FSCommandLoader;
 import com.github.otbproject.otbproject.config.*;
 import com.github.otbproject.otbproject.fs.FSUtil;
 import com.github.otbproject.otbproject.fs.Setup;
+import com.github.otbproject.otbproject.gui.GuiApplication;
 import com.github.otbproject.otbproject.gui.Window;
 import com.github.otbproject.otbproject.irc.IRCBot;
 import com.github.otbproject.otbproject.util.InputParserImproved;
@@ -79,12 +80,25 @@ public class App {
 
         if (cmd.hasOption(ArgParser.Opts.DEBUG)) {
             coreLogger.removeAppender(config.getAppender("Console-info"));
+            coreLogger.removeAppender(config.getAppender("Routing-console-info"));
         } else {
             coreLogger.removeAppender(config.getAppender("Console-debug"));
+            coreLogger.removeAppender(config.getAppender("Routing-console-debug"));
         }
-
+        File logFile = new File(FSUtil.logsDir() + File.separator + "console.log");
+        logFile.delete();
         // Log version
         logger.info("OTBProject version " + VERSION);
+        if (!GraphicsEnvironment.isHeadless()) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                App.logger.catching(e);
+            }
+            new Thread(() -> {
+                GuiApplication.start(args);
+            }).start();
+        }
 
         // Ensure directory tree is setup
         try {
@@ -150,14 +164,8 @@ public class App {
         APIBot.setBotRunnable(new BotRunnable());
         APIBot.setBotThread(new Thread(APIBot.getBotRunnable()));
         APIBot.getBotThread().start();
-
         if (!GraphicsEnvironment.isHeadless()) {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception e) {
-                App.logger.catching(e);
-            }
-            new Window();
+            GuiApplication.setInputActive();
         }
 
         Scanner scanner = new Scanner(System.in);
@@ -165,7 +173,7 @@ public class App {
         while (scanner.hasNext()) {
             String in = scanner.next();
             if (!in.equals(""))
-                new CmdParser().processLine(in);
+                CmdParser.processLine(in);
         }
         scanner.close();
     }

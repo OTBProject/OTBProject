@@ -23,56 +23,69 @@ public class CmdParser {
     public static final String LEAVECHANNEL = "leave";
     public static final String RELOAD = "reload";
     public static final String EXEC = "exec";
-    final HashMap<String, Runnable> mapOfThings = new HashMap<>();
-    final ArrayList<String> args = new ArrayList<>();
-    private String responseStr = "";
-    String name = "RETURN CHARACTER";//Honestly useless assignment, but something has to be here, why not this?
+    private static final HashMap<String, Runnable> mapOfThings = new HashMap<>();
+    private static final ArrayList<String> args = new ArrayList<>();
+    private static String responseStr = "";
+    private static String name = "RETURN CHARACTER";//Honestly useless assignment, but something has to be here, why not this?
 
-    public CmdParser() {
+    static {
         //Java 8 magic
-        mapOfThings.put(STOP, this::stop);
-        mapOfThings.put(RESTART, this::restart);
-        mapOfThings.put(JOINCHANNEL, this::joinChannel);
-        mapOfThings.put(LEAVECHANNEL, this::leaveChannel);
-        mapOfThings.put(RELOAD, this::reload);
-        mapOfThings.put(EXEC, this::exec);
+        mapOfThings.put(STOP, CmdParser::stop);
+        mapOfThings.put(RESTART, CmdParser::restart);
+        mapOfThings.put(JOINCHANNEL, CmdParser::joinChannel);
+        mapOfThings.put(LEAVECHANNEL, CmdParser::leaveChannel);
+        mapOfThings.put(RELOAD, CmdParser::reload);
+        mapOfThings.put(EXEC, CmdParser::exec);
     }
 
-    public String processLine(String aLine) {
+    public static String processLine(String aLine) {
         //use a second Scanner to parse the content of each line
+
         aLine = aLine.trim();
+
         Scanner scanner = new Scanner(aLine);
         scanner.useDelimiter(" ");
-        if (scanner.hasNext()) {
-            App.logger.debug("Processing input line: " + aLine);
-            name = scanner.next().toLowerCase();
-            while (scanner.hasNext()) {
-                args.add(scanner.next());
-            }
-            if (mapOfThings.containsKey(name)) {
-                mapOfThings.get(name).run();
+        try {
+            if (scanner.hasNext()) {
+                App.logger.debug("Processing input line: " + aLine);
+                name = scanner.next().toLowerCase();
+                while (scanner.hasNext()) {
+                    args.add(scanner.next());
+                }
+                if (mapOfThings.containsKey(name)) {
+                    mapOfThings.get(name).run();
+                } else {
+                    printHelpNoCommand();
+                }
+                if (!responseStr.isEmpty()) {
+                    App.logger.debug(responseStr);
+                }
             } else {
-                printHelpNoCommand();
+                App.logger.warn("Empty or invalid line. Unable to process.");
             }
-            if (!responseStr.isEmpty()) {
-                App.logger.debug(responseStr);
-            }
-        } else {
-            App.logger.warn("Empty or invalid line. Unable to process.");
+            return responseStr;
+        } finally {
+            scanner.close();
+            responseStr = "";
+            args.clear();
+
         }
-        return responseStr;
     }
 
 
-    void stop() {
+    static void stop() {
         App.logger.info("Stopping the process");
-        APIBot.getBot().shutdown();
+        if (APIBot.getBot() != null && APIBot.getBot().isConnected()) {
+            APIBot.getBot().shutdown();
+        }
         App.logger.info("Process Stopped, Goodbye");
         System.exit(0);
     }
 
-    void restart() {
-        APIBot.getBot().shutdown();
+    static void restart() {
+        if (APIBot.getBot() != null && APIBot.getBot().isConnected()) {
+            APIBot.getBot().shutdown();
+        }
         FSCommandLoader.LoadCommands();
         FSCommandLoader.LoadAliases();
         try {
@@ -83,39 +96,50 @@ public class CmdParser {
         }
     }
 
-    void joinChannel() {
+    static void joinChannel() {
         if (args.size() > 0) {
-            APIChannel.join(args.get(0).toLowerCase(), true);
+            boolean success = APIChannel.join(args.get(0).toLowerCase(), true);
+            String string = success ? "Successfully joined" : "Failed to join";
+            responseStr = string + " channel: " + args.get(0).toLowerCase();
+        } else {
+            responseStr = "Not Enough Args for '" + JOINCHANNEL + "'";
         }
     }
 
-    void leaveChannel() {
+    static void leaveChannel() {
         if (args.size() > 0) {
-            APIChannel.leave(args.get(0).toLowerCase());
+            boolean success = APIChannel.leave(args.get(0).toLowerCase());
+            String string = success ? "Successfully left" : "Failed to leave";
+            responseStr = string + " channel: " + args.get(0).toLowerCase();
+        } else {
+            responseStr = "Not Enough Args for '" + LEAVECHANNEL + "'";
         }
     }
 
-    void reload() {
+    static void reload() {
         if (args.size() > 0) {
             try {
                 FSCommandLoader.LoadLoadedCommands(args.get(0).toLowerCase(), LoadingSet.BOTH);
             } catch (IOException e) {
                 App.logger.catching(e);
+                responseStr += "Reload of Commands for " + args.get(0).toLowerCase() + " failed. \n " + e.getLocalizedMessage() + "\n";
             }
             try {
                 FSCommandLoader.LoadLoadedAliases(args.get(0).toLowerCase(), LoadingSet.BOTH);
             } catch (IOException e) {
                 App.logger.catching(e);
+                responseStr += "Reload of Aliases for " + args.get(0).toLowerCase() + " failed. \n " + e.getLocalizedMessage() + "\n";
             }
         } else {
             FSCommandLoader.LoadLoadedCommands(LoadingSet.BOTH);
             FSCommandLoader.LoadLoadedAliases(LoadingSet.BOTH);
         }
+        responseStr += "Reload Complete";
     }
 
-    void exec() {
+    static void exec() {
         if (args.size() < 2) {
-            responseStr = "Not enough args for 'exec'";
+            responseStr = "Not enough args for '" + EXEC + "'";
             return;
         }
         String channelName = args.get(0).toLowerCase();
@@ -138,7 +162,7 @@ public class CmdParser {
     }
 
 
-    void printHelpNoCommand() {
+    static void printHelpNoCommand() {
         responseStr = "That command is invalid. \'" + name + "\' does not exist as a CLI command.";
     }
 
