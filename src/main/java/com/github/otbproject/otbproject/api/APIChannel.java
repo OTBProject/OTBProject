@@ -104,17 +104,18 @@ public class APIChannel {
         return true;
     }
 
-    public static void leave(String channelName) {
+    public static boolean leave(String channelName) {
         channelName = channelName.toLowerCase();
         if (!in(channelName) || channelName.equals(APIBot.getBot().getUserName())) {
             App.logger.debug("In channel: " + in(channelName));
             App.logger.debug("Bot channel: " + channelName.equals(APIBot.getBot().getUserName()));
-            return;
+            return false;
         }
         App.logger.info("Leaving channel: " + channelName);
         get(channelName).leave();
         BotConfigHelper.removeFromCurrentChannels(APIConfig.getBotConfig(), channelName);
         APIConfig.writeBotConfig();
         APIBot.getBot().leave(channelName);
+        return true;
     }
 }

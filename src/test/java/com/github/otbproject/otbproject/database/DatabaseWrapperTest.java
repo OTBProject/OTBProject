@@ -39,6 +39,8 @@ public class DatabaseWrapperTest {
         coreLogger.removeAppender(config.getAppender("Console-info"));
         coreLogger.removeAppender(config.getAppender("Console-debug"));
         coreLogger.removeAppender(config.getAppender("Routing"));
+        coreLogger.removeAppender(config.getAppender("Routing-console-debug"));
+        coreLogger.removeAppender(config.getAppender("Routing-console-info"));
 
         fields.put(fieldName, DataTypes.STRING);
         fields.put(fieldName2, DataTypes.INTEGER);

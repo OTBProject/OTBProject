@@ -22,6 +22,30 @@
                 </route>
             </routes>
         </routing>
+        <routing name="Routing-console-info">
+            <routes pattern="*">
+                <route>
+                    <File name="RollingFile" fileName="${sys:OTBCONF}/console.log">
+                        <PatternLayout>
+                            <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %msg%n</Pattern>
+                            <!-- <Pattern>%d %p %c{1.} [%t] %m%n</Pattern> -->
+                        </PatternLayout>
+                    </File>
+                </route>
+            </routes>
+        </routing>
+        <routing name="Routing-console-debug">
+            <routes pattern="*">
+                <route>
+                    <File name="RollingFile" fileName="${sys:OTBCONF}/console.log">
+                        <PatternLayout>
+                            <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %class{36} %L %M - %msg%n</Pattern>
+                            <!-- <Pattern>%d %p %c{1.} [%t] %m%n</Pattern> -->
+                        </PatternLayout>
+                    </File>
+                </route>
+            </routes>
+        </routing>
 
     </Appenders>
     <Loggers>
@@ -29,6 +53,8 @@
             <AppenderRef ref="Console-info" level="info"/>
             <AppenderRef ref="Console-debug" level="debug"/>
             <AppenderRef ref="Routing" level="debug"/>
+            <AppenderRef ref="Routing-console-info" level="info"/>
+            <AppenderRef ref="Routing-console-debug" level="debug"/>
         </Root>
     </Loggers>
 </Configuration>
