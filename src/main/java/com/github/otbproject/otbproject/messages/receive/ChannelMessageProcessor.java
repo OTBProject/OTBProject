@@ -20,14 +20,13 @@ import com.github.otbproject.otbproject.users.UserLevel;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-// TODO possibly refactor to ChannelMessageProcessor
-public class ChannelMessageReceiver {
+public class ChannelMessageProcessor {
     private final Channel channel;
     private final String channelName;
     private final boolean inBotChannel;
     private final Lock lock = new ReentrantLock();
 
-    public ChannelMessageReceiver(Channel channel) {
+    public ChannelMessageProcessor(Channel channel) {
         this.channel = channel;
         channelName = channel.getName();
         inBotChannel = this.channel.getName().equals(APIBot.getBot().getUserName());
