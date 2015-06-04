@@ -5,7 +5,7 @@ import com.github.otbproject.otbproject.commands.scheduler.Scheduler;
 import com.github.otbproject.otbproject.config.ChannelConfig;
 import com.github.otbproject.otbproject.database.DatabaseWrapper;
 import com.github.otbproject.otbproject.database.SQLiteQuoteWrapper;
-import com.github.otbproject.otbproject.messages.receive.ChannelMessageReceiver;
+import com.github.otbproject.otbproject.messages.receive.ChannelMessageProcessor;
 import com.github.otbproject.otbproject.messages.receive.PackagedMessage;
 import com.github.otbproject.otbproject.messages.send.ChannelMessageSender;
 import com.github.otbproject.otbproject.messages.send.MessageOut;
@@ -28,7 +28,7 @@ public class Channel {
     private final DatabaseWrapper mainDb;
     private final SQLiteQuoteWrapper quoteDb;
     private ChannelMessageSender messageSender;
-    private ChannelMessageReceiver messageReceiver;
+    private ChannelMessageProcessor messageProcessor;
     private final Scheduler scheduler = new Scheduler();
     private final HashMap<String,ScheduledFuture> scheduledCommands = new HashMap<>();
     private final HashMap<String,ScheduledFuture> hourlyResetSchedules = new HashMap<>();
@@ -64,7 +64,7 @@ public class Channel {
             messageSender = new ChannelMessageSender(this);
             messageSender.start();
 
-            messageReceiver = new ChannelMessageReceiver(this);
+            messageProcessor = new ChannelMessageProcessor(this);
 
             scheduler.start();
 
@@ -87,7 +87,7 @@ public class Channel {
             messageSender.stop();
             messageSender = null;
 
-            messageReceiver = null;
+            messageProcessor = null;
 
             scheduler.stop();
 
@@ -112,7 +112,7 @@ public class Channel {
 
     public boolean receiveMessage(PackagedMessage packagedMessage) {
         if (inChannel) {
-            messageReceiver.processMessage(packagedMessage);
+            messageProcessor.processMessage(packagedMessage);
         }
         return inChannel;
     }
