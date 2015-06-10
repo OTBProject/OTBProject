@@ -116,17 +116,31 @@ public class Channel {
     public boolean sendMessage(MessageOut messageOut) {
         lock.readLock().lock();
         try {
-            return inChannel && messageSender.send(messageOut);
+            return inChannel && !config.isSilenced() && messageSender.send(messageOut);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public void clearSendQueue() {
+        lock.readLock().lock();
+        try {
+            messageSender.clearQueue();
         } finally {
             lock.readLock().unlock();
         }
     }
 
     public boolean receiveMessage(PackagedMessage packagedMessage) {
-        if (inChannel) {
-            messageReceiver.processMessage(packagedMessage);
+        lock.readLock().lock();
+        try {
+            if (inChannel) {
+                messageReceiver.processMessage(packagedMessage);
+            }
+            return inChannel;
+        } finally {
+            lock.readLock().unlock();
         }
-        return inChannel;
     }
 
     public String getName() {
