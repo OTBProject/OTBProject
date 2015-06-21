@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class GeneralConfigHelper {
     public static void initialize(GeneralConfig config) {
         if (config.permanently_enabled_commands == null) {
-            config.permanently_enabled_commands = new ArrayList<String>();
+            config.permanently_enabled_commands = new ArrayList<>();
         }
     }
 
@@ -39,7 +39,7 @@ public class GeneralConfigHelper {
         if (config.permanently_enabled_commands == null) {
             copy.permanently_enabled_commands = null;
         } else {
-            copy.permanently_enabled_commands = new ArrayList<String>(config.permanently_enabled_commands);
+            copy.permanently_enabled_commands = new ArrayList<>(config.permanently_enabled_commands);
         }
 
         return copy;

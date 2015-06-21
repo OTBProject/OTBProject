@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class BotConfigHelper {
     public static void initialize(BotConfig botConfig) {
         if (botConfig.whitelist == null) {
-            botConfig.whitelist = new ArrayList<String>();
+            botConfig.whitelist = new ArrayList<>();
         }
         if (botConfig.blacklist == null) {
-            botConfig.blacklist = new ArrayList<String>();
+            botConfig.blacklist = new ArrayList<>();
         }
         if (botConfig.currentChannels == null) {
-            botConfig.currentChannels = new ArrayList<String>();
+            botConfig.currentChannels = new ArrayList<>();
         }
     }
 
@@ -84,19 +84,19 @@ public class BotConfigHelper {
         if (config.whitelist == null) {
             copy.whitelist = null;
         } else {
-            copy.whitelist = new ArrayList<String>(config.whitelist);
+            copy.whitelist = new ArrayList<>(config.whitelist);
         }
 
         if (config.blacklist == null) {
             copy.blacklist = null;
         } else {
-            copy.blacklist = new ArrayList<String>(config.blacklist);
+            copy.blacklist = new ArrayList<>(config.blacklist);
         }
 
         if (config.currentChannels == null) {
             copy.currentChannels = null;
         } else {
-            copy.currentChannels = new ArrayList<String>(config.currentChannels);
+            copy.currentChannels = new ArrayList<>(config.currentChannels);
         }
 
         copy.setMessageSendDelayInMilliseconds(config.getMessageSendDelayInMilliseconds());

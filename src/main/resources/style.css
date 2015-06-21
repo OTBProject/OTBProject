@@ -1,0 +1,70 @@
+
+.text-area:focused {
+    -fx-padding: 0;
+    -fx-cursor: default;
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+    derive(-fx-base,-1%);
+}
+.text-area:focused > .scroll-pane {
+    -fx-background-color: null;
+}
+.text-area:focused > .scroll-pane > .scroll-bar:horizontal {
+    -fx-background-radius: 0 0 3 3;
+}
+.text-area:focused > .scroll-pane > .scroll-bar:vertical {
+    -fx-background-radius: 0 3 3 0;
+}
+.text-area:focused > .scroll-pane > .corner {
+    -fx-background-radius: 0 0 3 0;
+}
+.text-area:focused .content {
+    -fx-cursor: text;
+    -fx-background-color:
+    linear-gradient(from 0px 0px to 0px 4px, derive(-fx-control-inner-background, -8%), -fx-control-inner-background);
+    -fx-background-radius: 3;
+}
+.text-field:focused:readonly {
+    -fx-text-fill: -fx-text-inner-color;
+    -fx-highlight-fill: derive(-fx-control-inner-background,-20%);
+    -fx-highlight-text-fill: -fx-text-inner-color;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,30%);
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
+    linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 4, 3;
+    -fx-cursor: text;
+    -fx-padding: 0.416667em 0.583em 0.416667em 0.583em; /* 5 7 5 7 */
+}
+.text-field {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,30%);
+}
+.dialog-pane{
+    -fx-background-color: derive(#3c3f41, 10%);
+    -fx-font-family: "Ubuntu";
+}
+.dialog-pane > *.button-bar > *.container{
+    -fx-background-color: derive(#3c3f41, 10%);
+}
+.dialog-pane > *.button-bar > *.container > .button:default{
+    -fx-base: #30445d;
+}
+.dialog-pane > *.label.content{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.dialog-pane *.header-panel{
+    -fx-background-color: derive(#2b2b2b, 10%);
+}
+.dialog-pane *.header-panel *.label{
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-fill: #99a;
+}
+.root{
+    -fx-base:#4e5355;
+    -fx-background: #3c3f41;
+    -fx-control-inner-background: #2b2b2b;
+    -fx-light-text-color: #99a;
+}
+
+

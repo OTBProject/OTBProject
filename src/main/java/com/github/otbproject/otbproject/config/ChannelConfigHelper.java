@@ -1,6 +1,6 @@
 package com.github.otbproject.otbproject.config;
 
-import com.github.otbproject.otbproject.users.UserLevel;
+import com.github.otbproject.otbproject.user.UserLevel;
 
 public class ChannelConfigHelper {
     public static int getCooldown(ChannelConfig config, UserLevel ul) {

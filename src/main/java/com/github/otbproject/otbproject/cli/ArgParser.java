@@ -8,7 +8,12 @@ public class ArgParser {
 
         CommandLineParser parser = new GnuParser();
 
-        return parser.parse(options, args);
+        CommandLine cmd = parser.parse(options, args);
+        if (cmd.hasOption(ArgParser.Opts.UNPACK) && cmd.hasOption(ArgParser.Opts.NO_UNPACK)) {
+            throw new ParseException("Cannot have mutually exclusive options '--" + ArgParser.Opts.UNPACK + "' and '--" + ArgParser.Opts.NO_UNPACK + "'");
+        }
+
+        return cmd;
     }
 
     private static Options getMainOptions() {

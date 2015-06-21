@@ -22,6 +22,9 @@ public class MessageOut implements Comparable<MessageOut> {
     }
 
     public int compareTo(MessageOut messageOut) {
+        if (messageOut == null) {
+            throw new NullPointerException("Cannot compare to a MessageOut which is null.");
+        }
         return Integer.valueOf(priority.getValue()).compareTo(messageOut.getPriority().getValue());
     }
 }

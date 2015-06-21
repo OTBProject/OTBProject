@@ -62,6 +62,10 @@ public class ConfigValidator {
             validatedConfig.setMessageSendDelayInMilliseconds(0);
         }
 
+        if (validatedConfig.isBotChannelDebug() == null) {
+            validatedConfig.setBotChannelDebug(defaultConfig.isBotChannelDebug());
+        }
+
         BotConfigHelper.initialize(validatedConfig);
 
         return validatedConfig;

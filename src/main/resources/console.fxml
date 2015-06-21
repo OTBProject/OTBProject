@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
+          prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.otbproject.otbproject.gui.GuiController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="750.0" minWidth="10.0" prefWidth="750.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="15.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="388.0" minWidth="10.0" prefWidth="388.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="15.0" prefWidth="15.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="200.0" minHeight="200.0" prefHeight="200.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <TextArea fx:id="logOutput" editable="false" focusTraversable="false" wrapText="true" GridPane.columnIndex="1"
+                  GridPane.rowIndex="2" GridPane.rowSpan="5">
+            <font>
+                <Font name="Ubuntu Mono" size="16.0"/>
+            </font>
+        </TextArea>
+        <TextField fx:id="commandsInput" onKeyPressed="#command" prefHeight="30.0" promptText="Starting up, please wait..."
+                   GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <font>
+                <Font name="Ubuntu Mono" size="16.0"/>
+            </font>
+        </TextField>
+        <TextArea fx:id="commandsOutput" editable="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0"
+                  wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+            <font>
+                <Font name="Ubuntu Mono" size="16.0"/>
+            </font>
+        </TextArea>
+        <TextArea fx:id="cliOutput" editable="false" focusTraversable="false" prefHeight="200.0" prefWidth="200.0"
+                  wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <font>
+                <Font name="Ubuntu Mono" size="16.0"/>
+            </font>
+        </TextArea>
+        <Label text="Log" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <font>
+                <Font name="Ubuntu" size="12.0"/>
+            </font>
+        </Label>
+        <Label text="Info" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <font>
+                <Font name="Ubuntu" size="12.0"/>
+            </font>
+        </Label>
+        <Label text="CLI" GridPane.columnIndex="3" GridPane.rowIndex="3">
+            <font>
+                <Font name="Ubuntu" size="12.0"/>
+            </font>
+        </Label>
+    </children>
+</GridPane>

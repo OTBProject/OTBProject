@@ -1,31 +1,32 @@
 package com.github.otbproject.otbproject.bot;
 
-import com.github.otbproject.otbproject.channels.Channel;
+import com.github.otbproject.otbproject.channel.Channel;
 import com.github.otbproject.otbproject.database.DatabaseWrapper;
 import org.pircbotx.exception.IrcException;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by Justin on 05/04/2015.
- */
 public interface IBot {
-    public boolean isConnected(String channelName);
+    boolean isConnected(String channelName);
 
-    public boolean isConnected();
+    boolean isConnected();
 
-    public HashMap<String, Channel> getChannels();
+    ConcurrentHashMap<String, Channel> getChannels();
 
-    public boolean isChannel(String channelName);
+    boolean isChannel(String channelName);
 
-    public void shutdown();
+    default void shutdown() {
+        getChannels().values().forEach(Channel::leave);
+    }
 
-    public String getUserName();
+    String getUserName();
 
-    public DatabaseWrapper getBotDB();
+    DatabaseWrapper getBotDB();
 
     boolean isUserMod(String channel, String user);
+
+    boolean isUserSubscriber(String channel, String user);
 
     void sendMessage(String channel, String message);
 
@@ -34,4 +35,8 @@ public interface IBot {
     boolean join(String channelName);
 
     boolean leave(String channelName);
+
+    boolean timeout(String channelName, String user, int timeInSeconds);
+
+    boolean removeTimeout(String channelName, String user);
 }

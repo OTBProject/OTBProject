@@ -1,7 +1,7 @@
 package com.github.otbproject.otbproject.database;
 
 import com.github.otbproject.otbproject.App;
-import com.github.otbproject.otbproject.quotes.QuoteFields;
+import com.github.otbproject.otbproject.quote.QuoteFields;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class SQLiteQuoteWrapper extends DatabaseWrapper {
 
-    protected SQLiteQuoteWrapper(String path, HashMap<String, TableFields> tables) throws SQLException, ClassNotFoundException {
+    private SQLiteQuoteWrapper(String path, HashMap<String, TableFields> tables) throws SQLException, ClassNotFoundException {
         super(path, tables);
     }
 
@@ -40,6 +40,7 @@ public class SQLiteQuoteWrapper extends DatabaseWrapper {
             }
             connection.commit();
         } catch (SQLException e) {
+            App.logger.error("SQL: " + sql);
             App.logger.catching(e);
             bool = false;
         } finally {
@@ -72,6 +73,7 @@ public class SQLiteQuoteWrapper extends DatabaseWrapper {
                 return updateRecord(table, id, QuoteFields.ID, map);
             }
         } catch (SQLException e) {
+            App.logger.error("SQL: " + sql);
             App.logger.catching(e);
             return false;
         } finally {
@@ -91,6 +93,7 @@ public class SQLiteQuoteWrapper extends DatabaseWrapper {
             rs = connection.createStatement().executeQuery(sql);
             connection.commit();
         } catch (SQLException e) {
+            App.logger.error("SQL: " + sql);
             App.logger.catching(e);
         } finally {
             try {
@@ -104,16 +107,18 @@ public class SQLiteQuoteWrapper extends DatabaseWrapper {
     }
 
     public ArrayList<Object> getNonRemovedRecordsList(String table, String key) {
+        String sql = "";
         lock.lock();
         try {
             ArrayList<Object> set = new ArrayList<>();
-            String sql = "SELECT " + key + " FROM " + table + " WHERE " + QuoteFields.TEXT + " IS NOT NULL";
+            sql = "SELECT " + key + " FROM " + table + " WHERE " + QuoteFields.TEXT + " IS NOT NULL";
             ResultSet resultSet = connection.createStatement().executeQuery(sql);
             while (resultSet.next()) {
                 set.add(resultSet.getString(key));
             }
             return set;
         } catch (SQLException e) {
+            App.logger.error("SQL: " + sql);
             App.logger.catching(e);
             return null;
         } finally {

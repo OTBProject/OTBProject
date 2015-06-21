@@ -1,6 +1,6 @@
 package com.github.otbproject.otbproject.util.compat;
 
-public class AccountOld {
+class AccountOld {
     private String name;
     private String oauth;
 

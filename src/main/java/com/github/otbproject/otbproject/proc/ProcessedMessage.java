@@ -1,41 +1,21 @@
 package com.github.otbproject.otbproject.proc;
 
 public class ProcessedMessage {
-    private final String response;
-    private final String commandName;
-    private final boolean script;
-    private final String[] args;
-    private final boolean timedOut;
+    public final String response;
+    public final String commandName;
+    public final boolean isScript;
+    public final String[] args;
+    public final boolean timedOut;
 
     public ProcessedMessage(ProcessedCommand command, boolean timedOut) {
-        this(command.getResponse(), command.getCommandName(), command.isScript(), command.getArgs(), timedOut);
+        this(command.response, command.commandName, command.isScript, command.args, timedOut);
     }
 
-    public ProcessedMessage(String response, String commandName, boolean script, String[] args, boolean timedOut) {
+    public ProcessedMessage(String response, String commandName, boolean isScript, String[] args, boolean timedOut) {
         this.response = response;
         this.commandName = commandName;
-        this.script = script;
+        this.isScript = isScript;
         this.args = args;
         this.timedOut = timedOut;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public String getCommandName() {
-        return commandName;
-    }
-
-    public boolean isScript() {
-        return script;
-    }
-
-    public String[] getArgs() {
-        return args;
-    }
-
-    public boolean wasTimedOut() {
-        return timedOut;
     }
 }

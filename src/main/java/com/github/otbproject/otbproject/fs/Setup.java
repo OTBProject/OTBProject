@@ -1,9 +1,11 @@
 package com.github.otbproject.otbproject.fs;
 
-import com.github.otbproject.otbproject.commands.loader.FSCommandLoader;
-import com.github.otbproject.otbproject.commands.loader.LoadingSet;
 import com.github.otbproject.otbproject.config.DefaultConfigGenerator;
+import com.github.otbproject.otbproject.fs.groups.Base;
+import com.github.otbproject.otbproject.fs.groups.Chan;
 import com.github.otbproject.otbproject.util.JsonHandler;
+import com.github.otbproject.otbproject.util.preload.LoadStrategy;
+import com.github.otbproject.otbproject.util.preload.PreloadLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,26 +13,14 @@ import java.io.IOException;
 public class Setup {
     public static void setup() throws IOException {
         // Aliases Directory
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.FAILED);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.FAILED);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.CHANNELS);
+        createLoadingTree(FSUtil.aliasesDir());
 
         // Commands Directory
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.FAILED);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.FAILED);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.CHANNELS);
+        createLoadingTree(FSUtil.commandsDir());
 
         // Config Directory
         createDirs(FSUtil.configDir());
-        // createAccountFiles(); TODO uncomment in later release
+        createAccountFiles();
 
         // Data Directory
         createDirs(FSUtil.dataDir() + File.separator + FSUtil.DirNames.BOT_CHANNEL);
@@ -42,18 +32,31 @@ public class Setup {
             if (!mainDB.createNewFile()) {
                 throw new IOException("Unable to create database file: " + mainDBPath);
             }
-            FSCommandLoader.LoadLoadedBotCommands();
-            FSCommandLoader.LoadLoadedBotAliases();
+            //Stream.of(Base.values()).forEach(base -> PreloadLoader.loadDirectory(base, Chan.BOT, null, LoadStrategy.FROM_LOADED));
+            PreloadLoader.loadDirectory(Base.CMD, Chan.BOT, null, LoadStrategy.FROM_LOADED);
+            PreloadLoader.loadDirectory(Base.ALIAS, Chan.BOT, null, LoadStrategy.FROM_LOADED);
         }
 
         // Defaults Directory
         createDirs(FSUtil.defaultsDir());
 
+        // Filters Directory
+        createLoadingTree(FSUtil.filtersDir());
+
+        // Filter Groups Directory
+        createLoadingTree(FSUtil.filterGroupsDir());
+
         // Logs Directory
         createDirs(FSUtil.logsDir());
 
         // Scripts Directory
-        createDirs(FSUtil.scriptDir());
+        createDirs(FSUtil.commandScriptDir());
+        createDirs(FSUtil.scriptLibsDir());
+        createDirs(FSUtil.termScriptDir());
+        createDirs(FSUtil.filterScriptDir());
+
+        // Web Directory
+        createDirs(FSUtil.webDir());
     }
 
     public static void setupChannel(String channel) throws IOException {
@@ -63,14 +66,10 @@ public class Setup {
         }
 
         // Aliases
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.aliasesDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.FAILED);
+        createChannelLoadingTree(FSUtil.aliasesDir(), channel);
 
         // Commands
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.LOADED);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.TO_LOAD);
-        createDirs(FSUtil.commandsDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.FAILED);
+        createChannelLoadingTree(FSUtil.commandsDir(), channel);
 
         // Data
         createDirs(FSUtil.dataDir() + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel);
@@ -81,8 +80,14 @@ public class Setup {
             if (!mainDB.createNewFile()) {
                 throw new IOException("Unable to create database file: " + mainDBPath);
             } else {
-                FSCommandLoader.LoadLoadedCommands(channel, LoadingSet.BOTH);
-                FSCommandLoader.LoadLoadedAliases(channel, LoadingSet.BOTH);
+/*                Stream.of(Base.values()).forEach(base -> {
+                    PreloadLoader.loadDirectory(base, Chan.ALL, channel, LoadStrategy.FROM_LOADED);
+                    PreloadLoader.loadDirectory(base, Chan.SPECIFIC, channel, LoadStrategy.FROM_LOADED);
+                });*/
+                PreloadLoader.loadDirectory(Base.CMD, Chan.ALL, channel, LoadStrategy.FROM_LOADED);
+                PreloadLoader.loadDirectory(Base.CMD, Chan.SPECIFIC, channel, LoadStrategy.FROM_LOADED);
+                PreloadLoader.loadDirectory(Base.ALIAS, Chan.ALL, channel, LoadStrategy.FROM_LOADED);
+                PreloadLoader.loadDirectory(Base.ALIAS, Chan.SPECIFIC, channel, LoadStrategy.FROM_LOADED);
             }
         }
         // Create quotes database
@@ -91,6 +96,12 @@ public class Setup {
         if (!quotesDB.exists() && !quotesDB.createNewFile()) {
             throw new IOException("Unable to create database file: " + quotesDBPath);
         }
+
+        // Filters
+        createChannelLoadingTree(FSUtil.filtersDir(), channel);
+
+        // Filter Groups
+        createChannelLoadingTree(FSUtil.filterGroupsDir(), channel);
     }
 
     private static void createDirs(String path) throws IOException {
@@ -109,5 +120,21 @@ public class Setup {
         if (!new File(beamAcctPath).exists()) {
             JsonHandler.writeValue(beamAcctPath, DefaultConfigGenerator.createAccountConfig());
         }
+    }
+
+    private static void createLoadingTree(String directory) throws IOException {
+        createDirs(directory + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.LOADED);
+        createDirs(directory + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.TO_LOAD);
+        createDirs(directory + File.separator + FSUtil.DirNames.ALL_CHANNELS + File.separator + FSUtil.DirNames.FAILED);
+        createDirs(directory + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.LOADED);
+        createDirs(directory + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.TO_LOAD);
+        createDirs(directory + File.separator + FSUtil.DirNames.BOT_CHANNEL + File.separator + FSUtil.DirNames.FAILED);
+        createDirs(directory + File.separator + FSUtil.DirNames.CHANNELS);
+    }
+
+    private static void createChannelLoadingTree(String directory, String channel) throws IOException {
+        createDirs(directory + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.LOADED);
+        createDirs(directory + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.TO_LOAD);
+        createDirs(directory + File.separator + FSUtil.DirNames.CHANNELS + File.separator + channel + File.separator + FSUtil.DirNames.FAILED);
     }
 }

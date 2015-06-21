@@ -11,8 +11,13 @@ public class FSUtil {
     private static final String CONFIG_DIR_NAME = "config";
     private static final String DATA_DIR_NAME = "data";
     private static final String DEFAULTS_DIR_NAME = "defaults";
+    private static final String FILTERS_DIR_NAME = "filters";
+    private static final String FILTER_GROUPS_DIR_NAME = "filter-groups";
     private static final String LOGS_DIR_NAME = "logs";
     private static final String SCRIPT_DIR_NAME = "scripts";
+    private static final String LIBS_DIR_NAME = "libs";
+    private static final String TERMS_DIR_NAME = "terms";
+    private static final String WEB_DIR_NAME = "web";
     private static String baseDir = BASE_DIR_DEFAULT;
 
     public static String getBaseDir() {
@@ -44,12 +49,45 @@ public class FSUtil {
         return baseDir + File.separator + DEFAULTS_DIR_NAME;
     }
 
+    private static String filtersBaseDir() {
+        return baseDir + File.separator + FILTERS_DIR_NAME;
+    }
+
+    public static String filtersDir() {
+        return filtersBaseDir() + File.separator + FILTERS_DIR_NAME;
+    }
+
+    public static String filterGroupsDir() {
+        return filtersBaseDir() + File.separator + FILTER_GROUPS_DIR_NAME;
+    }
+
     public static String logsDir() {
         return baseDir + File.separator + LOGS_DIR_NAME;
     }
 
+    // TODO make private after 2.0 release?
     public static String scriptDir() {
         return baseDir + File.separator + SCRIPT_DIR_NAME;
+    }
+
+    public static String commandScriptDir() {
+        return scriptDir() + File.separator + COMMANDS_DIR_NAME;
+    }
+
+    public static String scriptLibsDir(){
+        return scriptDir() + File.separator + LIBS_DIR_NAME;
+    }
+
+    public static String termScriptDir() {
+        return scriptDir() + File.separator + TERMS_DIR_NAME;
+    }
+
+    public static String filterScriptDir() {
+        return scriptDir() + File.separator + FILTERS_DIR_NAME;
+    }
+
+    public static String webDir() {
+        return baseDir + File.separator + WEB_DIR_NAME;
     }
 
     public static class DirNames {

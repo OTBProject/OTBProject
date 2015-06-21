@@ -1,15 +1,15 @@
 package com.github.otbproject.otbproject.messages.receive;
 
 import com.github.otbproject.otbproject.messages.send.MessagePriority;
-import com.github.otbproject.otbproject.users.UserLevel;
+import com.github.otbproject.otbproject.user.UserLevel;
 
 public class PackagedMessage {
-    private String message;
-    private String user;
-    private String channel;
-    private String destinationChannel;
-    private UserLevel userLevel;
-    private MessagePriority messagePriority;
+    private final String message;
+    private final String user;
+    private final String channel;
+    private final String destinationChannel;
+    private final UserLevel userLevel;
+    private final MessagePriority messagePriority;
 
     public PackagedMessage(String message, String user, String channel, String destinationChannel, UserLevel userLevel, MessagePriority messagePriority) {
         this.message = message;

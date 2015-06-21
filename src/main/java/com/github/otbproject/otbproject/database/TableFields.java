@@ -1,13 +1,14 @@
 package com.github.otbproject.otbproject.database;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class TableFields {
     public final HashMap<String, String> map;
-    public final String primaryKey;
+    public final HashSet<String> primaryKeys;
 
-    public TableFields(HashMap<String, String> map, String primaryKey) {
+    public TableFields(HashMap<String, String> map, HashSet<String> primaryKeys) {
         this.map = map;
-        this.primaryKey = primaryKey;
+        this.primaryKeys = primaryKeys;
     }
 }
