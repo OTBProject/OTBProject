@@ -75,9 +75,7 @@ public class GuiApplication extends Application {
                     primaryStage.hide();
                     tailer.stop();
                 } else if (buttonType == buttonTypeExit) {
-                    App.logger.info("Stopping the process");
-                    Bot.Control.shutdown(false);
-                    App.logger.info("Process Stopped, Goodbye");
+                    Bot.Control.shutdownAndExit();
                     System.exit(0);
                 }
             });
@@ -161,8 +159,7 @@ public class GuiApplication extends Application {
             alert.initStyle(StageStyle.UNDECORATED);
             alert.showAndWait().ifPresent(buttonType -> {
                 if (buttonType == buttonTypeYes) {
-                    Bot.Control.shutdown(false);
-                    System.exit(0);
+                    Bot.Control.shutdownAndExit();
                 }
             });
             event.consume();

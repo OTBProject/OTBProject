@@ -84,6 +84,15 @@ public class Bot {
         }
 
         /**
+         * Does what it says on the tin
+         */
+        public static synchronized void shutdownAndExit() {
+            shutdown(false);
+            App.logger.info("Process stopped");
+            System.exit(0);
+        }
+
+        /**
          * Stops the bot and cleans up anything which needs to be cleaned up
          *  before the bot is started again
          *
@@ -95,6 +104,7 @@ public class Bot {
                 return false;
             }
 
+            App.logger.info("Shutting down bot");
             IBot bot = getBot();
             if (bot != null) {
                 bot.shutdown();
