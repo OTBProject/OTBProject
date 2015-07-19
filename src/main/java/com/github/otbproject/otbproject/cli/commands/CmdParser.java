@@ -230,10 +230,7 @@ public class CmdParser {
         commandBuilder.withShortHelp("quit")
                 .withLongHelp("Stops the bot and exits")
                 .withAction(() -> {
-                    App.logger.info("Stopping the process");
-                    Bot.Control.shutdown(false);
-                    App.logger.info("Process Stopped, Goodbye");
-                    System.exit(0);
+                    Bot.Control.shutdownAndExit();
                     return "";
                 });
         map.put(QUIT, commandBuilder.create());

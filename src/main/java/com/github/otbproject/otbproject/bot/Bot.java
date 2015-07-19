@@ -18,6 +18,8 @@ import com.github.otbproject.otbproject.util.preload.PreloadLoader;
 import org.apache.commons.cli.CommandLine;
 
 import java.awt.*;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 
 public class Bot {
@@ -51,6 +53,16 @@ public class Bot {
 
     public static class Control {
         private static boolean running = false;
+        private static Set<Runnable> startupHooks = ConcurrentHashMap.newKeySet();
+        private static Set<Runnable> shutdownHooks = ConcurrentHashMap.newKeySet();
+
+        public static void onStartup(Runnable runnable) {
+            startupHooks.add(runnable);
+        }
+
+        public static void onShutdown(Runnable runnable) {
+            shutdownHooks.add(runnable);
+        }
 
         public static synchronized boolean startup(CommandLine cmd) {
             loadConfigs(cmd);
@@ -72,6 +84,15 @@ public class Bot {
         }
 
         /**
+         * Does what it says on the tin
+         */
+        public static synchronized void shutdownAndExit() {
+            shutdown(false);
+            App.logger.info("Process stopped");
+            System.exit(0);
+        }
+
+        /**
          * Stops the bot and cleans up anything which needs to be cleaned up
          *  before the bot is started again
          *
@@ -83,10 +104,12 @@ public class Bot {
                 return false;
             }
 
+            App.logger.info("Shutting down bot");
             IBot bot = getBot();
             if (bot != null) {
                 bot.shutdown();
             }
+            shutdownHooks.stream().forEach(Runnable::run);
             if (cleanup) {
                 shutdownCleanup();
             }
@@ -158,6 +181,9 @@ public class Bot {
             loadPreloads(LoadStrategy.OVERWRITE);
             TermLoader.loadTerms();
             // TODO load filters (scripts)
+
+            // Last
+            startupHooks.stream().forEach(Runnable::run);
         }
 
         public static void loadPreloads(LoadStrategy strategy) {
