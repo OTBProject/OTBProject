@@ -1,3 +1,16 @@
+#logOutput .content {
+    -fx-background-color: transparent;
+}
+
+#logOutput .scroll-pane .viewport {
+    -fx-background-image: url("assets/logo-low-opacity.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 60%;
+
+    -fx-background-color:
+    linear-gradient(from 0px 0px to 0px 4px, derive(-fx-control-inner-background, -8%), -fx-control-inner-background);
+}
 
 .text-area:focused {
     -fx-padding: 0;

@@ -12,6 +12,9 @@ import java.io.IOException;
 
 public class Setup {
     public static void setup() throws IOException {
+        // Assets Directory
+        createDirs(FSUtil.assetsDir());
+
         // Aliases Directory
         createLoadingTree(FSUtil.aliasesDir());
 
@@ -36,9 +39,6 @@ public class Setup {
             PreloadLoader.loadDirectory(Base.CMD, Chan.BOT, null, LoadStrategy.FROM_LOADED);
             PreloadLoader.loadDirectory(Base.ALIAS, Chan.BOT, null, LoadStrategy.FROM_LOADED);
         }
-
-        // Defaults Directory
-        createDirs(FSUtil.defaultsDir());
 
         // Filters Directory
         createLoadingTree(FSUtil.filtersDir());

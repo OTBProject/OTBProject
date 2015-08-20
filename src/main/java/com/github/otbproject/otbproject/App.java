@@ -132,6 +132,7 @@ public class App {
             Unpacker.unpack("preloads/json/aliases/", builder.base(Base.ALIAS).channels(Chan.ALL).load(Load.TO).create());
             Unpacker.unpack("preloads/json/bot-channel/commands/", builder.base(Base.CMD).channels(Chan.BOT).load(Load.TO).create());
             Unpacker.unpack("preloads/groovy/scripts/", FSUtil.scriptDir());
+            Unpacker.unpack("assets/local/", FSUtil.assetsDir());
             Control.loadPreloads(LoadStrategy.UPDATE);
         }
 

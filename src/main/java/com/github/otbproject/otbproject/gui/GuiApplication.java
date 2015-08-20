@@ -50,14 +50,14 @@ public class GuiApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Thread.currentThread().setUncaughtExceptionHandler(ThreadUtil.UNCAUGHT_EXCEPTION_HANDLER);
-        Font.loadFont(getClass().getClassLoader().getResourceAsStream("UbuntuMono-R.ttf"), 12);
-        Font.loadFont(getClass().getClassLoader().getResourceAsStream("Ubuntu-R.ttf"), 12);
+        Font.loadFont(getClass().getClassLoader().getResourceAsStream("assets/fonts/UbuntuMono-R.ttf"), 12);
+        Font.loadFont(getClass().getClassLoader().getResourceAsStream("assets/fonts/Ubuntu-R.ttf"), 12);
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("console.fxml"));
         Parent start = loader.load();
         primaryStage.setScene(new Scene(start, 1200, 515));
         primaryStage.setResizable(false);
         primaryStage.setTitle("OTB");
-        primaryStage.getIcons().add(new Image("http://otbproject.github.io/images/logo.png"));
+        primaryStage.getIcons().add(new Image("file://" + FSUtil.assetsDir() + File.separator + FSUtil.Assets.LOGO));
         primaryStage.setOnCloseRequest(event -> {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Confirm Close");
@@ -76,7 +76,7 @@ public class GuiApplication extends Application {
                     primaryStage.hide();
                     tailer.stop();
                 } else if (buttonType == buttonTypeExit) {
-                    com.github.otbproject.otbproject.bot.Control.shutdownAndExit();
+                    Control.shutdownAndExit();
                     System.exit(0);
                 }
             });
