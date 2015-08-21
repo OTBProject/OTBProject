@@ -112,9 +112,9 @@ public class App {
         boolean unpack = cmd.hasOption(ArgParser.Opts.UNPACK)
                 || ((VERSION.type != Version.Type.SNAPSHOT) && !VERSION.equals(version) && !cmd.hasOption(ArgParser.Opts.NO_UNPACK));
 
-        // Fix compatibility issues
+        // Fix urgent compatibility issues (need to be fixed before configs and other things are loaded)
         if (unpack) {
-            VersionCompatHelper.fixCompatIssues(version);
+            VersionCompatHelper.urgentCompatFixes(version);
         }
 
         // Read configs
@@ -123,6 +123,11 @@ public class App {
         // Start GUI if applicable
         if (Control.Graphics.present()) {
             ThreadUtil.getSingleThreadExecutor().execute(() -> GuiApplication.start(args));
+        }
+
+        // Fix other compatibility issues
+        if (unpack) {
+            VersionCompatHelper.normalCompatFixes(version);
         }
 
         // Unpack
