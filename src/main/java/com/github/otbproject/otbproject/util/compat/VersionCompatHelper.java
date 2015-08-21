@@ -18,18 +18,26 @@ import java.io.File;
 import java.util.Optional;
 
 public class VersionCompatHelper {
-    public static void fixCompatIssues(Version oldVersion) {
-        if ((oldVersion == null) || App.VERSION.equals(oldVersion)) {
-            return;
+    public static void urgentCompatFixes(Version oldVersion) {
+        if (versionCheck(oldVersion)) {
+            fixGeneralConfig();
         }
-        if (App.VERSION.checker().major(2).minor(0).isVersion() && oldVersion.checker().major(1).minor(1).isVersion()) {
+    }
+
+    public static void normalCompatFixes(Version oldVersion) {
+        if (versionCheck(oldVersion)) {
             fix1_1To2_0();
         }
     }
 
+    private static boolean versionCheck(Version oldVersion) {
+        return !((oldVersion == null) || App.VERSION.equals(oldVersion))
+                && App.VERSION.checker().major(2).minor(0).isVersion()
+                && oldVersion.checker().major(1).minor(1).isVersion();
+    }
+
     private static void fix1_1To2_0() {
         fixScripts();
-        fixGeneralConfig();
         removeOldPreloads();
     }
 
