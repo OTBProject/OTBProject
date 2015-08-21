@@ -62,7 +62,7 @@ public class IrcListener extends ListenerAdapter {
 
     @Override
     public void onConnect(ConnectEvent event) {
-        ((IRCBot) Control.getBot()).sendRaw().rawLine("TWITCHCLIENT 3");
+        ((TwitchBot) Control.getBot()).ircBot.sendRaw().rawLine("TWITCHCLIENT 3");
         // Join bot channel
         Channels.join(Control.getBot().getUserName(), false);
         // Join channels

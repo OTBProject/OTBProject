@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class TwitchBot extends AbstractBot {
-    private IRCBot ircBot = new IRCBot();
+    IRCBot ircBot = new IRCBot();
 
     // Should take slightly more than 30 seconds to refill 99 tokens adding 1
     // token every 304 milliseconds
