@@ -13,9 +13,8 @@ import java.nio.charset.Charset;
 class IRCBot extends PircBotX {
     private final OutputRaw newOutputRaw;
 
-    @SuppressWarnings("unchecked")
     public IRCBot() {
-        super(new Configuration.Builder().setName(Configs.getAccount().getName()).setAutoNickChange(false).setCapEnabled(false).addListener(new IrcListener()).setServerHostname("irc.twitch.tv")
+        super(new Configuration.Builder<>().setName(Configs.getAccount().getName()).setAutoNickChange(false).setCapEnabled(false).addListener(new IrcListener()).setServerHostname("irc.twitch.tv")
                 .setServerPort(6667).setServerPassword(Configs.getAccount().getPasskey()).setEncoding(Charset.forName("UTF-8")).buildConfiguration());
         App.logger.info("Bot configuration built");
         newOutputRaw = new OutputRawImproved(this);
