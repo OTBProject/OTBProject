@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class OutputRawImproved extends OutputRaw {
+class OutputRawImproved extends OutputRaw {
     public OutputRawImproved(PircBotX bot) {
         super(bot);
     }

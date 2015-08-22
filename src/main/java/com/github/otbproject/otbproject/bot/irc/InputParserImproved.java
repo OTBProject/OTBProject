@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InputParserImproved extends InputParser {
+class InputParserImproved extends InputParser {
 
     public InputParserImproved(IRCBot bot) {
         super(bot);

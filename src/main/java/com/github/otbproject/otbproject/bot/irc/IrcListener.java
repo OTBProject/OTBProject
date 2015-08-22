@@ -16,7 +16,7 @@ import org.pircbotx.hooks.events.*;
 
 import java.util.Optional;
 
-public class IrcListener extends ListenerAdapter<PircBotX> {
+class IrcListener extends ListenerAdapter<PircBotX> {
 
     @Override
     public void onMessage(MessageEvent event) throws Exception {
@@ -63,7 +63,7 @@ public class IrcListener extends ListenerAdapter<PircBotX> {
 
     @Override
     public void onConnect(ConnectEvent event) {
-        ((TwitchBot) Control.getBot()).ircBot.sendRaw().rawLine("TWITCHCLIENT 2");
+        ((TwitchBot) Control.getBot()).ircBot.sendRaw().rawLine("TWITCHCLIENT 3");
         // Join bot channel
         Channels.join(Control.getBot().getUserName(), false);
         // Join channels
