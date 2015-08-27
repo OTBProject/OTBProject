@@ -10,12 +10,13 @@ import com.github.otbproject.otbproject.messages.send.MessagePriority;
 import com.github.otbproject.otbproject.proc.TimeoutProcessor;
 import com.github.otbproject.otbproject.user.UserLevel;
 import com.github.otbproject.otbproject.user.UserLevels;
+import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.*;
 
 import java.util.Optional;
 
-public class IrcListener extends ListenerAdapter {
+class IrcListener extends ListenerAdapter<PircBotX> {
 
     @Override
     public void onMessage(MessageEvent event) throws Exception {
@@ -62,7 +63,7 @@ public class IrcListener extends ListenerAdapter {
 
     @Override
     public void onConnect(ConnectEvent event) {
-        ((IRCBot) Control.getBot()).sendRaw().rawLine("TWITCHCLIENT 3");
+        ((TwitchBot) Control.getBot()).ircBot.sendRaw().rawLine("TWITCHCLIENT 3");
         // Join bot channel
         Channels.join(Control.getBot().getUserName(), false);
         // Join channels
