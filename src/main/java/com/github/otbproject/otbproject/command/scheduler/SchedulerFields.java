@@ -14,7 +14,7 @@ public class SchedulerFields {
     public static final String RESET = "reset";
 
     public static final String TABLE_NAME = "tblSchedule";
-    static final HashSet<String> PRIMARY_KEYS = new HashSet<>();//COMMAND;
+    static final HashSet<String> PRIMARY_KEYS = new HashSet<>();
 
     static {
         PRIMARY_KEYS.add(COMMAND);

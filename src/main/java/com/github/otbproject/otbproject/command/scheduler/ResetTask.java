@@ -22,7 +22,7 @@ public class ResetTask implements Runnable {
 
     @Override
     public void run() {
-        Schedules.unScheduleCommand(channel, command);
+        Schedules.doUnscheduleCommand(channel, command);
         Schedules.doScheduleCommand(channel, command, delay, period, true, timeUnit);
     }
 }

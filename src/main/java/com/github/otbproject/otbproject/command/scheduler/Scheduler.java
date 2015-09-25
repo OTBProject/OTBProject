@@ -20,9 +20,9 @@ public class Scheduler {
     }
 
     private ScheduledExecutorService getService() {
-        return Executors.newScheduledThreadPool(5,
+        return Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder()
-                        .setNameFormat(channel + "-scheduler-%d")
+                        .setNameFormat(channel + "-scheduler")
                         .build()
         );
     }
@@ -67,7 +67,7 @@ public class Scheduler {
     public ScheduledFuture<?> schedule(Runnable task, long delay, long period, TimeUnit timeUnit) throws SchedulingException {
         lock.readLock().lock();
         try {
-            if (!isRunning()) {
+            if (!running) {
                 throw new SchedulingException("Unable to schedule task - scheduler not running");
             }
             return scheduledExecutorService.scheduleAtFixedRate(task, delay, period, timeUnit);

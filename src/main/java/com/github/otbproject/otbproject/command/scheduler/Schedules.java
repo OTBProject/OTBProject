@@ -40,20 +40,27 @@ public class Schedules {
     }
 
     static boolean unScheduleCommand(Channel channel, String command) {
-        boolean success = removeFromDatabase(channel, command);
-        channel.removeCommandFuture(command);
-        channel.removeResetFuture(command);
-        return success;
+        if (removeFromDatabase(channel, command)) {
+            doUnscheduleCommand(channel, command);
+            App.logger.debug("Unscheduled command '" + command + "' in channel: " + channel.getName());
+            return true;
+        }
+        return false;
     }
 
-    public static long getSecondsSinceTheHour() {
+    static void doUnscheduleCommand(Channel channel, String command) {
+        channel.removeCommandFuture(command);
+        channel.removeResetFuture(command);
+    }
+
+    private static long getSecondsSinceTheHour() {
         Date date = new Date();
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTime(date);
         return TimeUnit.MINUTES.toSeconds(calendar.get(Calendar.MINUTE)) + calendar.get(Calendar.SECOND);
     }
 
-    public static long getSecondsTillTheHour() {
+    private static long getSecondsTillTheHour() {
         return TimeUnit.HOURS.toSeconds(1) - getSecondsSinceTheHour();
     }
 
@@ -66,8 +73,11 @@ public class Schedules {
             return false;
         }
         Channel channel = optional.get();
-        doScheduleCommand(channel, command, delay, period, hourReset, timeUnit);
-        return addToDatabase(channel, command, delay, period, hourReset, timeUnit);
+        if (addToDatabase(channel, command, delay, period, hourReset, timeUnit)) {
+            doScheduleCommand(channel, command, delay, period, hourReset, timeUnit);
+            return true;
+        }
+        return false;
     }
 
     // Channel should not be null
