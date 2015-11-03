@@ -6,6 +6,7 @@ import com.github.otbproject.otbproject.channel.ChannelProxy;
 import com.github.otbproject.otbproject.fs.FSUtil;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Configs {
 
@@ -13,7 +14,7 @@ public class Configs {
     private static final String WEB_CONFIG_PATH = FSUtil.configDir() + File.separator + FSUtil.ConfigFileNames.WEB_CONFIG;
 
     private static String accountFileName = "";
-    private static WrappedConfig<Account> account;
+    private static final AtomicReference<WrappedConfig<Account>> account = new AtomicReference<>();
 
     private static final WrappedConfig<GeneralConfig> generalConfig = WrappedConfig.of(GeneralConfig.class, GENERAL_CONFIG_PATH, GeneralConfig::new);
     private static final WrappedConfig<WebConfig> webConfig = WrappedConfig.of(WebConfig.class, WEB_CONFIG_PATH, WebConfig::new);
@@ -29,12 +30,12 @@ public class Configs {
 
     // Update
     public static void reloadAccount() { // TODO rename
-        account = WrappedConfig.of(Account.class, getAccountPath(), Account::new);
+        account.set(WrappedConfig.of(Account.class, getAccountPath(), Account::new));
     }
 
     // Config getters
     public static WrappedConfig<Account> getAccount() {
-        return account;
+        return account.get();
     }
 
     public static WrappedConfig<GeneralConfig> getGeneralConfig() {
@@ -63,7 +64,9 @@ public class Configs {
             return accountFileName;
         }
 
-        Service service = generalConfig.get(GeneralConfig::getService);
+        // If getting service exactly fails for some reason, get it inexactly
+        Service service = generalConfig.getExactlyAsOptional(GeneralConfig::getService)
+                .orElse(generalConfig.get(GeneralConfig::getService));
         switch (service) {
             case BEAM:
                 return FSUtil.ConfigFileNames.ACCOUNT_BEAM;
