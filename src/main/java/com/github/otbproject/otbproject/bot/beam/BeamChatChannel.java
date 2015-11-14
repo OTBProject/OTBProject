@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BeamChatChannel {
+class BeamChatChannel {
     private static final String ERR_MSG = "Failed to connect to Beam channel";
     final BeamBot beamBot;
     BeamChat beamChat;

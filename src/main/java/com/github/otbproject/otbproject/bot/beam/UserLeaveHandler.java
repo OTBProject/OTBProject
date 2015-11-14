@@ -3,7 +3,7 @@ package com.github.otbproject.otbproject.bot.beam;
 import pro.beam.api.resource.chat.events.EventHandler;
 import pro.beam.api.resource.chat.events.UserLeaveEvent;
 
-public class UserLeaveHandler implements EventHandler<UserLeaveEvent> {
+class UserLeaveHandler implements EventHandler<UserLeaveEvent> {
     private final BeamChatChannel beamChatChannel;
 
     public UserLeaveHandler(BeamChatChannel beamChatChannel) {
