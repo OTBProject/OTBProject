@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BeamMessageHandler implements EventHandler<IncomingMessageEvent> {
+class BeamMessageHandler implements EventHandler<IncomingMessageEvent> {
     private static final ExecutorService EXECUTOR_SERVICE;
 
     static {

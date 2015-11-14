@@ -24,8 +24,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO tweak logging
+// TODO rewrite to use class hierarchy
 public class PreloadLoader {
+    private PreloadLoader() {}
+
     public static void loadDirectoryForEachChannel(Base base, LoadStrategy strategy) {
         FSUtil.streamDirectory(new File(FSUtil.dataDir() + File.separator + FSUtil.DirNames.CHANNELS),
                 "Failed to load objects of type '" + base.toString() + "' for each channel - unable to get list of channels")

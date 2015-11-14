@@ -4,7 +4,7 @@ import pro.beam.api.resource.BeamUser;
 
 import java.util.List;
 
-public class BeamChatUser {
+class BeamChatUser {
 
     private int userId;
     private String userName;

@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Quotes {
+    private Quotes() {}
+
     public static Optional<Quote> get(SQLiteQuoteWrapper db, Integer id) {
         return db.getRecord(QuoteFields.TABLE_NAME, id, QuoteFields.ID, Quotes::getQuoteFromResultSet);
     }

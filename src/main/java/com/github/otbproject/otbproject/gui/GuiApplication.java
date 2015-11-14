@@ -48,8 +48,8 @@ public class GuiApplication extends Application {
      * for most of the execution, as this value is not volatile
      */
     private static boolean cheapReady = false;
-    static boolean isReady() {
-        return cheapReady || ready;
+    static boolean notReady() {
+        return !cheapReady && !ready;
     }
 
     static final Lock READY_LOCK = new ReentrantLock(true);
@@ -196,7 +196,7 @@ public class GuiApplication extends Application {
 
         private void addToConsole() {
             // Ensure it does not attempt to append text before the GUI is ready
-            if (!isReady()) {
+            if (notReady()) {
                 return;
             }
 

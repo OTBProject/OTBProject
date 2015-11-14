@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Aliases {
+    private Aliases() {}
 
     public static Optional<Alias> get(DatabaseWrapper db, String aliasName) {
         return db.getRecord(AliasFields.TABLE_NAME, aliasName, AliasFields.NAME,

@@ -16,6 +16,8 @@ public class JsonHandler {
     public static final ObjectMapper MAPPER = new ObjectMapper();
     private static final Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
+    private JsonHandler() {}
+
     // Returns empty Optional if can't read object
     public static <T> Optional<T> readValue(String path, Class<T> className) {
         try {

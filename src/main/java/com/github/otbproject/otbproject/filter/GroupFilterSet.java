@@ -11,7 +11,7 @@ public class GroupFilterSet {
     public final FilterGroup group;
     public final ConcurrentHashMap.KeySetView<Filter, Boolean> filterSet = ConcurrentHashMap.newKeySet();
 
-    public GroupFilterSet(FilterGroup group) {
+    private GroupFilterSet(FilterGroup group) {
         this.group = group;
     }
 

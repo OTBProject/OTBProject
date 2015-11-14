@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Users {
+    private Users() {}
 
     public static Optional<User> get(DatabaseWrapper db, String userNick) {
         return db.getRecord(UserFields.TABLE_NAME, userNick, UserFields.NICK,

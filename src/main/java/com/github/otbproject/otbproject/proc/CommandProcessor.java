@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class CommandProcessor {
+    private CommandProcessor() {}
+
     public static ProcessedCommand process(DatabaseWrapper db, String message, String channel, String user, UserLevel userLevel, boolean debug) {
         message = message.trim();
         String commandMsg = checkAlias(db, message);

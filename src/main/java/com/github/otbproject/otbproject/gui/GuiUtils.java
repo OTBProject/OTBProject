@@ -6,21 +6,22 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DialogPane;
-import org.apache.logging.log4j.Level;
 
 import java.net.URL;
 import java.util.Objects;
 
 public class GuiUtils {
+    private GuiUtils() {}
+
     public static void runSafe(final Runnable runnable) {
         Objects.requireNonNull(runnable, "runnable");
 
         // Attempt to prevent NPE by queueing Runnables if GuiApplication
         // not ready
-        if (!GuiApplication.isReady()) {
+        if (GuiApplication.notReady()) {
             GuiApplication.READY_LOCK.lock();
             try {
-                if (!GuiApplication.isReady()) {
+                if (GuiApplication.notReady()) {
                     GuiApplication.NOT_READY_QUEUE.add(runnable);
                     return;
                 }

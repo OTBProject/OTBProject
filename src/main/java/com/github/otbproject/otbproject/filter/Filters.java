@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Filters {
+    private Filters() {}
+
     public static Optional<BasicFilter> get(DatabaseWrapper db, String data, FilterType type) {
         List<Map.Entry<String, Object>> list = new ArrayList<>();
         list.add(new AbstractMap.SimpleImmutableEntry<>(FilterFields.DATA, data));

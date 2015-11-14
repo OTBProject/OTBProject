@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 public class ThreadUtil {
     public static final Thread.UncaughtExceptionHandler UNCAUGHT_EXCEPTION_HANDLER;
 
+    private ThreadUtil() {}
+
     static {
         UNCAUGHT_EXCEPTION_HANDLER = (t, e) -> {
             App.logger.error("Thread crashed: " + t.getName());

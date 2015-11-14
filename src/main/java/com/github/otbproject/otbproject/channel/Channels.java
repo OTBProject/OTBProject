@@ -8,6 +8,8 @@ import java.util.Set;
 
 @Deprecated
 public class Channels {
+    private Channels() {}
+
     public static boolean in(String channelName) {
         return Control.bot().channelManager().in(channelName);
     }

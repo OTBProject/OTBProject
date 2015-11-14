@@ -8,6 +8,8 @@ public class InternalMessageSender {
     public static final String CLI = "cli";
     public static final String TERMINAL = "terminal";
 
+    private InternalMessageSender() {}
+
     public static void send(String destination, String message, String source) {
         switch (destination) {
             case CLI:

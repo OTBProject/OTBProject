@@ -1,6 +1,8 @@
 package com.github.otbproject.otbproject.command.parser;
 
 public class ParserMethodWrapper {
+    private ParserMethodWrapper() {}
+
     public static String doModifier(String toModify, String term) {
         return CommandResponseParser.doModifier(toModify, term);
     }

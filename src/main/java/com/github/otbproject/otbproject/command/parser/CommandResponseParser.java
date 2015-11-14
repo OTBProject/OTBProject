@@ -33,6 +33,8 @@ public class CommandResponseParser {
         registerTerms();
     }
 
+    private CommandResponseParser() {}
+
     // In case terms need to be reloaded
     public static void reRegisterTerms() {
         TERMS.clear();

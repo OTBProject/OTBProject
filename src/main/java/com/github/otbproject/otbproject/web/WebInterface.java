@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.URI;
 
 public class WebInterface {
+    private WebInterface() {}
+
     public static void start() {
         if (Configs.getWebConfig().get(WebConfig::isUpdateChecking)) {
             checkForNewVersion();

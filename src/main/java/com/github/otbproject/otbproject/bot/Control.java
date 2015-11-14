@@ -25,6 +25,8 @@ public class Control {
     private static volatile boolean running = false;
     private static volatile Bot bot = NullBot.INSTANCE;
 
+    private Control() {}
+
     public static Bot bot() {
         return bot;
     }

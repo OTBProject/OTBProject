@@ -28,6 +28,8 @@ public class Configs {
         botConfigProxy = botConfig.asWrappedConfig();
     }
 
+    private Configs() {}
+
     // Update
     public static void reloadAccount() { // TODO rename
         account.set(WrappedConfig.of(Account.class, getAccountPath(), Account::new));

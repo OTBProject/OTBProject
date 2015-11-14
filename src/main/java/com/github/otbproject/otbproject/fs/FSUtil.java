@@ -26,6 +26,8 @@ public class FSUtil {
 
     private static String baseDir = BASE_DIR_DEFAULT;
 
+    private FSUtil() {}
+
     public static String getBaseDir() {
         return baseDir;
     }

@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class LogRemover {
+    private LogRemover() {}
+
     public static void removeOldLogs() {
         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         final long now = System.currentTimeMillis();

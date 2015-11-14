@@ -13,6 +13,8 @@ import com.github.otbproject.otbproject.filter.Filters;
 import java.util.Optional;
 
 class PreloadComparator {
+    private PreloadComparator() {}
+
     static Alias generateAliasHybrid(DatabaseWrapper db, Alias newAlias, Alias oldAlias) {
         if ((oldAlias == null) || (newAlias == null) || !oldAlias.getName().equals(newAlias.getName())) {
             return newAlias;

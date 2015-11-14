@@ -3,6 +3,8 @@ package com.github.otbproject.otbproject.cli;
 import org.apache.commons.cli.*;
 
 public class ArgParser {
+    private ArgParser() {}
+
     public static CommandLine parse(String[] args) throws ParseException {
         Options options = getMainOptions();
 
@@ -108,5 +110,7 @@ public class ArgParser {
         public static final String VERSION_SHORT = "v";
         public static final String NO_GUI = "no-gui";
         public static final String WEB = "web";
+
+        private Opts() {}
     }
 }

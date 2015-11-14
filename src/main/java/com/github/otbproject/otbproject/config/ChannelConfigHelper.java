@@ -4,6 +4,8 @@ import com.github.otbproject.otbproject.channel.ChannelProxy;
 import com.github.otbproject.otbproject.user.UserLevel;
 
 public class ChannelConfigHelper {
+    private ChannelConfigHelper() {}
+
     public static int getCooldown(ChannelProxy channel, UserLevel ul) {
         switch (ul) {
             case DEFAULT:

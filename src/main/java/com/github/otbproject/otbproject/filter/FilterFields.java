@@ -20,6 +20,8 @@ public class FilterFields {
         PRIMARY_KEYS.add(TYPE);
     }
 
+    private FilterFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> map = new HashMap<>();
         map.put(DATA, DataTypes.STRING);

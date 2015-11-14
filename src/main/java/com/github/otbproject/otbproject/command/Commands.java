@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Commands {
+    private Commands() {}
 
     public static Optional<Command> get(DatabaseWrapper db, String commandName) {
         return db.getRecord(CommandFields.TABLE_NAME, commandName, CommandFields.NAME,

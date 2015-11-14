@@ -27,6 +27,8 @@ public class CommandFields {
         PRIMARY_KEYS.add(NAME);
     }
 
+    private CommandFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> commandFields = new HashMap<>();
         commandFields.put(NAME, DataTypes.STRING);

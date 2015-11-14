@@ -3,6 +3,7 @@ package com.github.otbproject.otbproject.config;
 import com.github.otbproject.otbproject.App;
 import com.github.otbproject.otbproject.util.JsonHandler;
 import com.github.otbproject.otbproject.util.ThreadUtil;
+import com.google.common.util.concurrent.Uninterruptibles;
 
 import java.util.Optional;
 import java.util.concurrent.*;
@@ -17,13 +18,11 @@ class WrappedConfigImpl<T> implements WrappedConfig<T> {
     static {
         UPDATE_SERVICE = ThreadUtil.getSingleThreadExecutor("config-updater");
         UPDATE_SERVICE.execute(() -> {
-            try {
-                while (true) {
-                    UPDATE_DEQUE.takeFirst().run();
-                }
-            } catch (InterruptedException e) {
-                App.logger.error("Interrupted config updater service. Configs can no longer be modified. This is probably not what you wanted to do.");
-                Thread.currentThread().interrupt();
+            // Loops forever, because there is not currently any scenario in which it
+            // is sensible to interrupt it (as that would prevent all further updates
+            // and edits)
+            while (true) {
+                Uninterruptibles.takeUninterruptibly(UPDATE_DEQUE).run();
             }
         });
     }
@@ -92,10 +91,9 @@ class WrappedConfigImpl<T> implements WrappedConfig<T> {
         UPDATE_DEQUE.addFirst(() -> needsUpdate = true);
         UPDATE_DEQUE.addLast(task);
         try {
-            task.get();
-        } catch (InterruptedException | ExecutionException e) {
+            Uninterruptibles.getUninterruptibly(task);
+        } catch (ExecutionException e) {
             App.logger.catching(e);
-            ThreadUtil.interruptIfInterruptedException(e);
         }
     }
 

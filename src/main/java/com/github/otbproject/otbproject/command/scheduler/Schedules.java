@@ -9,6 +9,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Schedules {
+    private Schedules() {}
+
     public static void scheduleCommandInSeconds(String channel, String command, long delay, long period, boolean hourReset) {
         scheduleCommand(channel, command, TimeUnit.SECONDS.toMillis(delay), TimeUnit.SECONDS.toMillis(period), hourReset, TimeUnit.MILLISECONDS);
     }
