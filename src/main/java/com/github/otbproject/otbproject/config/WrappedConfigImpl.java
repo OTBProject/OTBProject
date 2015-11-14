@@ -22,7 +22,7 @@ class WrappedConfigImpl<T> implements WrappedConfig<T> {
             // is sensible to interrupt it (as that would prevent all further updates
             // and edits)
             while (true) {
-                Uninterruptibles.takeUninterruptibly(UPDATE_DEQUE);
+                Uninterruptibles.takeUninterruptibly(UPDATE_DEQUE).run();
             }
         });
     }
