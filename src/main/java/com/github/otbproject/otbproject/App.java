@@ -42,6 +42,8 @@ public class App {
     public static final Logger logger = LogManager.getLogger();
     public static final Version VERSION = AppVersion.current();
 
+    private App() {}
+
     public static void main(String[] args) {
         try {
             doMain(args);

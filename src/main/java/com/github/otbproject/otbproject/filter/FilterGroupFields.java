@@ -19,6 +19,8 @@ public class FilterGroupFields {
         PRIMARY_KEYS.add(NAME);
     }
 
+    private FilterGroupFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> map = new HashMap<>();
         map.put(NAME, DataTypes.STRING);

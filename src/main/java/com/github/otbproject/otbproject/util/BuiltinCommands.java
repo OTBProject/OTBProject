@@ -6,4 +6,6 @@ public class BuiltinCommands {
     public static final String GENERAL_INVALID_ARG = "~%general:invalid.arg";
     public static final String GENERAL_INVALID_FLAG = "~%general:invalid.flag";
     public static final String GENERAL_UNKNOWN_FAILURE = "~%general:unknown.failure";
+
+    private BuiltinCommands() {}
 }

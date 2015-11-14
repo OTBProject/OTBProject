@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.Objects;
 
 public class GuiUtils {
+    private GuiUtils() {}
+
     public static void runSafe(final Runnable runnable) {
         Objects.requireNonNull(runnable, "runnable");
 

@@ -12,6 +12,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class FatalChecker {
+    private FatalChecker() {}
+
     public static void checkForPreviousFatalCrashes() {
         List<String> fileList = FSUtil.streamDirectory(new File(System.getProperty("user.dir")))
                 .filter(File::isFile)

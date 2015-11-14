@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 public class FilterGroups {
+    private FilterGroups() {}
+
     public static Optional<FilterGroup> get(DatabaseWrapper db, String groupName) {
         return db.getRecord(FilterGroupFields.TABLE_NAME, groupName,
                 FilterGroupFields.NAME, FilterGroups::getFilterGroupFromResultSet);

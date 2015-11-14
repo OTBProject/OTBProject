@@ -9,6 +9,8 @@ import com.github.otbproject.otbproject.user.UserFields;
 import java.util.HashMap;
 
 public class DatabaseHelper {
+    private DatabaseHelper() {}
+
     /**
      * @return a HashMap used to create all the tables by the DatabaseWrapper.
      * Tables are hard-coded into the method.

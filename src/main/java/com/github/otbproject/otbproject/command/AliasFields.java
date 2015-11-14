@@ -19,6 +19,8 @@ public class AliasFields {
         PRIMARY_KEYS.add(NAME);
     }
 
+    private AliasFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> aliasFields = new HashMap<>();
         aliasFields.put(NAME, DataTypes.STRING);

@@ -12,6 +12,8 @@ public class Watcher {
     private static final int EXCEPTION_LIMIT = 5;
     private static final int DUPLICATE_LIMIT = 3;
 
+    private Watcher() {}
+
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor(
             new ThreadFactoryBuilder()
                     .setNameFormat("watcher")

@@ -7,6 +7,8 @@ import com.github.otbproject.otbproject.user.UserLevel;
 import com.github.otbproject.otbproject.user.UserLevels;
 
 public class BotUtil {
+    private BotUtil() {}
+
     public static boolean isModOrHigher(String channelName, String user) throws ChannelNotFoundException {
         // Check if user has user level mod or higher
         ChannelProxy channel = Control.bot().channelManager().getOrThrow(channelName);

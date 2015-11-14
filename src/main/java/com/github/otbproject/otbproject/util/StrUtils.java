@@ -1,6 +1,8 @@
 package com.github.otbproject.otbproject.util;
 
 public class StrUtils {
+    private StrUtils() {}
+
     public static String capitalizeFully(String string) {
         if (string.length() == 0) {
             return string;

@@ -17,6 +17,8 @@ public class QuoteFields {
         PRIMARY_KEYS.add(ID);
     }
 
+    private QuoteFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> quoteFields = new HashMap<>();
         quoteFields.put(ID, DataTypes.INTEGER);

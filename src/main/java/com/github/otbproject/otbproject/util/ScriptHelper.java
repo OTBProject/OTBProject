@@ -11,6 +11,8 @@ import com.github.otbproject.otbproject.messages.send.MessagePriority;
 import com.github.otbproject.otbproject.user.UserLevel;
 
 public class ScriptHelper {
+    private ScriptHelper() {}
+
     public static void runCommand(String message, String user, String channelName, String destinationChannel, MessagePriority priority) throws ChannelNotFoundException {
         App.logger.debug("Processing message as command: " + message);
         PackagedMessage packagedMessage = new PackagedMessage(message, user, channelName, destinationChannel, UserLevel.INTERNAL, priority);

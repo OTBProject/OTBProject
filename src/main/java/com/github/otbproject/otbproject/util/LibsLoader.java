@@ -12,6 +12,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class LibsLoader {
+    private LibsLoader() {}
+
     public static void load() {
         File libsdir = new File(FSUtil.scriptLibsDir());
         FilenameFilter fileNameFilter = (dir, name) -> {

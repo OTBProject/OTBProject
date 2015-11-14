@@ -18,6 +18,8 @@ import java.util.Optional;
 public class Versions {
     private static final String RATE_LIMIT_INFO_PATH = FSUtil.dataDir() + File.separator + "rate-limit-info.json";
 
+    private Versions() {}
+
     public static Optional<Version> readFromFile(String path) {
         return readFromFile(new File(path));
     }

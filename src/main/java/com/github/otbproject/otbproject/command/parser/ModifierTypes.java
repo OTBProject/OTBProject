@@ -13,4 +13,6 @@ public class ModifierTypes {
     public static final String WORD_CAP = "word_cap";
     public static final String FIRST_CAP_SOFT = "first_cap_soft";
     public static final String WORD_CAP_SOFT = "word_cap_soft";
+
+    private ModifierTypes() {}
 }

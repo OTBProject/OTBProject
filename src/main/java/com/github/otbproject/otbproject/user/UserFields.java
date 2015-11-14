@@ -17,6 +17,8 @@ public class UserFields {
         PRIMARY_KEYS.add(NICK);
     }
 
+    private UserFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> userFields = new HashMap<>();
         userFields.put(NICK, DataTypes.STRING);

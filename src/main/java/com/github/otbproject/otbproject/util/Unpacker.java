@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.util.zip.ZipFile;
 
 public class Unpacker {
+    private Unpacker() {}
+
     public static void unpack(String jarDir, String destDir) {
         try {
             ZipFile jar = new ZipFile(new File(App.class.getProtectionDomain().getCodeSource().getLocation().toURI()));

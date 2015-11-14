@@ -20,6 +20,8 @@ public class SchedulerFields {
         PRIMARY_KEYS.add(COMMAND);
     }
 
+    private SchedulerFields() {}
+
     public static TableFields getTableFields() {
         HashMap<String, String> fields = new HashMap<>();
         fields.put(COMMAND, DataTypes.STRING);

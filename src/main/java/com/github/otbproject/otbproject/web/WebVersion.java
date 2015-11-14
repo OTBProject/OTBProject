@@ -22,6 +22,8 @@ public class WebVersion {
         }
     }
 
+    private WebVersion() {}
+
     public static Version latest() {
         return LatestVersionHolder.WEB_VERSION;
     }

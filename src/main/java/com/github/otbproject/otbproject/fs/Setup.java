@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Setup {
+    private Setup() {}
+
     public static void setup() throws IOException {
         // Assets Directory
         createDirs(FSUtil.assetsDir());

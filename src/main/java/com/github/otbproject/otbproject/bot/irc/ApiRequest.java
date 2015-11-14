@@ -10,7 +10,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
 
-public class ApiRequest {
+class ApiRequest {
+    private ApiRequest() {}
+
     public static String sendRequest(String request) {
         String url = "https://api.twitch.tv/kraken/" + request;
         App.logger.info("Sent request: " + url);

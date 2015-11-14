@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.Optional;
 
 public class VersionCompatHelper {
+    private VersionCompatHelper() {}
+
     public static void urgentCompatFixes(Version oldVersion) {
         if (versionCheck(oldVersion)) {
             fixGeneralConfig();

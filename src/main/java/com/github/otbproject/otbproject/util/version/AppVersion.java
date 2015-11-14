@@ -3,6 +3,8 @@ package com.github.otbproject.otbproject.util.version;
 public class AppVersion {
     private static final Version CURRENT = getCurrentVersion();
 
+    private AppVersion() {}
+
     private static class LatestVersionHolder {
         private static final Version FIELD = Version.parseAsOptional(Versions.lookupLatestGithubVersion("otbproject"))
                 .orElse(Version.create(0, 0, 0, Version.Type.RELEASE));

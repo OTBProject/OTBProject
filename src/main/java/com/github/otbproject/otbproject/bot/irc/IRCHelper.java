@@ -1,6 +1,8 @@
 package com.github.otbproject.otbproject.bot.irc;
 
 class IRCHelper {
+    private IRCHelper() {}
+
     public static String getIrcChannelName(String channel) {
         return "#" + channel;
     }

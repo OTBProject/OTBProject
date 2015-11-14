@@ -81,6 +81,8 @@ public class CmdParser {
         initHelp();
     }
 
+    private CmdParser() {}
+
     public static Set<String> getCommands() {
         return Collections.unmodifiableSet(map.keySet());
     }

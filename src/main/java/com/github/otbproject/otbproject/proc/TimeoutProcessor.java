@@ -12,6 +12,8 @@ import com.github.otbproject.otbproject.user.UserLevel;
 import java.util.Optional;
 
 public class TimeoutProcessor {
+    private TimeoutProcessor() {}
+
     public static boolean doTimeouts(ChannelProxy channel, PackagedMessage packagedMessage) {
         // TODO implement and remove if statement
         if (false) { // So I can work on an implementation without changing behaviour

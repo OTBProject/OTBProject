@@ -8,6 +8,7 @@ import com.github.otbproject.otbproject.messages.internal.InternalMessageSender;
 import java.util.Optional;
 
 public class UserLevels {
+    private UserLevels() {}
 
     public static UserLevel getUserLevel(DatabaseWrapper db, String channel, String user) {
         if (user.startsWith(InternalMessageSender.DESTINATION_PREFIX)) {
