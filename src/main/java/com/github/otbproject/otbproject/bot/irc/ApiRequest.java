@@ -1,7 +1,6 @@
-package com.github.otbproject.otbproject.serviceapi;
+package com.github.otbproject.otbproject.bot.irc;
 
 import com.github.otbproject.otbproject.App;
-import com.google.common.util.concurrent.Uninterruptibles;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
@@ -10,7 +9,6 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class ApiRequest {
     public static String sendRequest(String request) {
