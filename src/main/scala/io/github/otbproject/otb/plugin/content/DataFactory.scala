@@ -3,21 +3,27 @@ package io.github.otbproject.otb.plugin.content
 import java.util.Objects
 import java.util.function.Function
 
-import io.github.otbproject.otb.misc.JLambda
+import io.github.otbproject.otb.misc.{JLambda, ThreadUtil}
+
+import scala.concurrent.{ExecutionContext, Future}
 
 sealed class DataFactory[T, P <: PluginData] private[content](plugin: ContentPlugin,
                                                               initializer: T => P,
                                                               pClass: Class[P]) {
   private val identifier = new PluginDataTypeIdentifier(plugin, pClass)
 
-  private[content] def provideData(initData: T, builder: PluginDataMap.Builder) {
-    builder.put(identifier, Objects.requireNonNull(initializer(initData)))
+  private[content] def provideData(initData: T, builder: PluginDataMap.Builder): Unit = {
+    val f = Future { Objects.requireNonNull(initializer(initData)) }(DataFactory.executor)
+    builder.put(identifier, f)
   }
 
   private[content] def getData(holder: PluginDataHolder[T]): P = holder.getPluginData.get(identifier)
 }
 
 object DataFactory {
+  private[content] val executor: ExecutionContext =
+    ExecutionContext.fromExecutorService(ThreadUtil.newCachedThreadPool("Plugin Data Provider"))
+
   /**
     * Returns a DataFactory which does nothing, and returns an empty PluginData when
     * [[DataFactory.getData()]] is called.
@@ -78,4 +84,5 @@ object DataFactory {
 
     override def getData(holder: PluginDataHolder[Any]) = EmptyPluginData
   }
+
 }
