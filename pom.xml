@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.otbproject</groupId>
-    <artifactId>otbproject</artifactId>
+    <groupId>io.github.otbproject</groupId>
+    <artifactId>otb</artifactId>
     <version>3.0.0-SNAPSHOT</version>
 
     <properties>
@@ -297,7 +297,7 @@
                             <addClasspath>false</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <mainClass>${project.groupId}.${project.artifactId}.App</mainClass>
+                            <mainClass>${project.groupId}.${project.artifactId}.runtime.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
