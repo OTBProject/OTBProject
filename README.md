@@ -13,4 +13,4 @@ A tutorial for how to set up your bot and run it the first time can be found on 
 
 Issues and feature requests should be submitted to the [Issue Tracker](../../issues).
 
-The latest successful build can be found <a target="_blank" href="http://maven.tldcode.uk/content/repositories/snapshots/com/github/otbproject/otbproject/">here</a>.
+The latest successful build can be found <a target="_blank" href="http://maven.tldcode.uk/content/repositories/snapshots/io/github/otbproject/otb/">here</a>.
