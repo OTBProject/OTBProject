@@ -6,5 +6,5 @@ final case class PluginIdentifier[P <: Plugin](pluginClass: Class[P], pluginName
   Objects.requireNonNull(pluginClass)
   Objects.requireNonNull(pluginName)
 
-  override def toString: String = "[" + pluginName + " | " + pluginClass + "]"
+  override def toString: String = "(" + pluginName + " : " + pluginClass.getName + ")"
 }

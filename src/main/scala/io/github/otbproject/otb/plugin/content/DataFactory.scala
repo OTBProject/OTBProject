@@ -22,7 +22,7 @@ sealed class DataFactory[T, P <: PluginData] private[content](plugin: ContentPlu
 
 object DataFactory {
   private[content] val executor: ExecutionContext =
-    ExecutionContext.fromExecutorService(ThreadUtil.newCachedThreadPool("Plugin Data Provider"))
+    ExecutionContext.fromExecutorService(ThreadUtil.newCachedThreadPool("Plugin Data Provider %d"))
 
   /**
     * Returns a DataFactory which does nothing, and returns an empty PluginData when

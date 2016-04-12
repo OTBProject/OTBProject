@@ -1,5 +1,6 @@
 package io.github.otbproject.otb.plugin.load
 
+import java.util.Objects
 import java.util.stream.Collectors
 
 import com.google.common.collect.HashMultimap
@@ -148,7 +149,7 @@ private[load] final class PluginAssembler {
          if !failed) {
       try {
         val info = identifierMap.get(identifier).get
-        plugins += info.createPlugin(getPluginInitializer(info))
+        plugins += Objects.requireNonNull(info.createPlugin(getPluginInitializer(info)))
       } catch {
         case e: Throwable =>
           logger.error("Error instantiating plugin: " + identifier)
@@ -163,7 +164,8 @@ private[load] final class PluginAssembler {
   }
 
   private def getPluginInitializer(pluginInfo: PluginInfo): PluginInitializer = {
-    ??? // TODO: impl
+    // TODO: implement properly
+    new PluginInitializer(Core.core.logger, Core.core.eventBus)
   }
 
   private def reassemblePlugins(infoSet: mutable.Set[PluginInfo]): List[_ <: Plugin] = {
