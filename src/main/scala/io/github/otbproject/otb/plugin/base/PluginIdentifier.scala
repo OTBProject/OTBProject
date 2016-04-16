@@ -2,9 +2,9 @@ package io.github.otbproject.otb.plugin.base
 
 import java.util.Objects
 
-final case class PluginIdentifier[P <: Plugin](pluginClass: Class[P], pluginName: String) {
-  Objects.requireNonNull(pluginClass)
-  Objects.requireNonNull(pluginName)
+final case class PluginIdentifier[P <: Plugin](pClass: Class[P], name: String) {
+  Objects.requireNonNull(pClass)
+  Objects.requireNonNull(name)
 
-  override def toString: String = "[" + pluginName + " | " + pluginClass + "]"
+  override def toString: String = "(" + name + " : " + pClass.getName + ")"
 }

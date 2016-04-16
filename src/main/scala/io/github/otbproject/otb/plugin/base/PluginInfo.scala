@@ -11,11 +11,8 @@ trait PluginInfo {
   val identifier: PluginIdentifier[P]
 
   val version: CoreVersion
-
-  def createPlugin(initializer: PluginInitializer): P
-
   /**
-    * Returns a [[Set]] of dependencies which are required in order for the
+    * A [[Set]] of dependencies which are required in order for the
     * plugin to be loaded.
     *
     * It is recommended that all members of the returned set also be stored
@@ -28,9 +25,8 @@ trait PluginInfo {
     * functionality if present. These values can be used to retrieve an
     * [[Option]] of the plugin instance if it is present (also without any
     * casting) by calling [[Plugin.getOptionalDependencyInstance()]].
-    *
-    * @return a set of dependencies required in order for the plugin to be
-    *         loaded
     */
-  def requiredDependencies: Set[Dependency[_ <: Plugin]]
+  val requiredDependencies: Set[Dependency[_ <: Plugin]]
+
+  def createPlugin(initializer: PluginInitializer): P
 }

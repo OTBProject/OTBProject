@@ -14,8 +14,8 @@ final case class Dependency[P <: Plugin](identifier: PluginIdentifier[P],
                                          minVersion: CoreVersion,
                                          maxMajorVersion: Int) {
   // Make sure maxMajorVersion is valid
-  if (maxMajorVersion < 0) {
-    throw new IllegalArgumentException("Maximum major version must be non-negative.")
+  if (maxMajorVersion <= minVersion.major) {
+    throw new IllegalArgumentException("Maximum version must be greater than minimum version")
   }
 
   def this(identifier: PluginIdentifier[P], minVersion: CoreVersion) =

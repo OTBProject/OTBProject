@@ -1,11 +1,13 @@
 package io.github.otbproject.otb.plugin.load
 
+import java.util.Objects
 import java.util.stream.Collectors
 
 import com.google.common.collect.HashMultimap
 import io.github.otbproject.otb.core.Core
 import io.github.otbproject.otb.misc.SLambda
-import io.github.otbproject.otb.plugin.base.{Plugin, PluginIdentifier, PluginInfo, PluginInitializer}
+import io.github.otbproject.otb.plugin.base._
+import io.github.otbproject.otb.plugin.load.PluginAssembler._
 import org.jgrapht.DirectedGraph
 import org.jgrapht.alg.CycleDetector
 import org.jgrapht.graph.{DefaultEdge, SimpleDirectedGraph}
@@ -15,36 +17,36 @@ import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.collection.{JavaConversions, mutable}
 
-private[load] final class PluginAssembler {
+private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
   private val logger = Core.core.logger
+  private val instantiatedPlugins: mutable.Map[PluginIdentifier[_], Plugin] = mutable.Map()
+  private val infoSet = (mutable.Set.newBuilder ++= immutableSet).result
 
-  def assembleFrom(infoSet: Set[PluginInfo]): List[_ <: Plugin] = {
-    val mutableSet = (mutable.Set.newBuilder ++= infoSet).result
-
+  private def assemble(): List[_ <: Plugin] = {
     logger.info("Checking plugins")
 
     // Filter out PluginInfo with null identifiers
-    mutableSet.retain(_.identifier != null)
-    if (mutableSet.size < infoSet.size) {
-      logger.error("Skipping " + (infoSet.size - mutableSet.size) + " plugin(s) with null identifiers")
+    infoSet.retain(validInfo)
+    if (infoSet.size < immutableSet.size) {
+      logger.error("Skipping " + (immutableSet.size - infoSet.size) + " plugin(s) with null fields in PluginInfo")
     }
 
-    removeDuplicates(mutableSet)
-    pruneIfMissingDependencies(mutableSet)
-    assemblePlugins(mutableSet)
+    removeDuplicates()
+    pruneIfMissingDependencies()
+    assemblePlugins()
   }
 
   /**
     * Remove plugins if name or class is used more than once
     */
-  private def removeDuplicates(infoSet: mutable.Set[PluginInfo]): Unit = {
+  private def removeDuplicates(): Unit = {
     val nameMultimap = HashMultimap.create[String, PluginInfo]
     val classMultimap = HashMultimap.create[Class[_], PluginInfo]
 
     // Use multimap to count occurrences of each plugin name and class
     for (info <- infoSet) {
-      nameMultimap.put(info.identifier.pluginName, info)
-      classMultimap.put(info.identifier.pluginClass, info)
+      nameMultimap.put(info.identifier.name, info)
+      classMultimap.put(info.identifier.pClass, info)
     }
 
     val infoToString = (info: PluginInfo) => "(" + info.getClass.getName + " -> " + info.identifier.toString + ")"
@@ -72,9 +74,8 @@ private[load] final class PluginAssembler {
     }
   }
 
-  // Maybe works?
   @tailrec
-  private def pruneIfMissingDependencies(infoSet: mutable.Set[PluginInfo]): Unit = {
+  private def pruneIfMissingDependencies(): Unit = {
     val missingDependencies = mutable.Set[PluginInfo]()
 
     // Does stuff
@@ -95,13 +96,13 @@ private[load] final class PluginAssembler {
 
     if (missingDependencies.nonEmpty) {
       infoSet.retain(!missingDependencies.contains(_))
-      logger.error("Skipped plugins missing dependencies: " + missingDependencies.map(_.identifier.toString))
-      pruneIfMissingDependencies(infoSet)
-    } else removeWithCyclicDependencies(infoSet)
+      logger.error("Skipping plugins with missing dependencies: " + missingDependencies.map(_.identifier.toString))
+      pruneIfMissingDependencies()
+    } else removeWithCyclicDependencies()
   }
 
-  private def removeWithCyclicDependencies(infoSet: mutable.Set[PluginInfo]): Unit = {
-    val graph = dependencyGraph(infoSet)
+  private def removeWithCyclicDependencies(): Unit = {
+    val graph = dependencyGraph()
 
     val cycleDetector = new CycleDetector(graph)
     val cyclicVertices = cycleDetector.findCycles()
@@ -109,12 +110,12 @@ private[load] final class PluginAssembler {
     if (!cyclicVertices.isEmpty) {
       logger.error("Skipping plugins with circular dependencies: " + cyclicVertices)
       infoSet.retain(info => !cyclicVertices.contains(info.identifier))
-      pruneIfMissingDependencies(infoSet)
+      pruneIfMissingDependencies()
     }
   }
 
-  private def dependencyGraph(infoSet: mutable.Set[PluginInfo]): DirectedGraph[PluginIdentifier[_], DefaultEdge] = {
-    val identifierMap = mapIdentifiers(infoSet)
+  private def dependencyGraph(): DirectedGraph[PluginIdentifier[_], DefaultEdge] = {
+    val identifierMap = mapIdentifiers()
     val graph = new SimpleDirectedGraph[PluginIdentifier[_], DefaultEdge](classOf[DefaultEdge])
 
     // Add PluginInfo as vertices
@@ -130,44 +131,80 @@ private[load] final class PluginAssembler {
     graph
   }
 
-  private def mapIdentifiers(infoSet: mutable.Set[PluginInfo]): Map[PluginIdentifier[_], PluginInfo] = {
+  private def mapIdentifiers(): Map[PluginIdentifier[_], PluginInfo] = {
     infoSet.map(e => (e.identifier, e)).toMap
   }
 
-  private def assemblePlugins(infoSet: mutable.Set[PluginInfo]): List[Plugin] = {
-    val identifierMap = mapIdentifiers(infoSet)
+  private def assemblePlugins(): List[Plugin] = {
+    val identifierMap = mapIdentifiers()
     val plugins = ListBuffer[Plugin]()
 
     logger.info("Building dependency tree")
 
-    val graph = dependencyGraph(infoSet)
-    val topologicalOrderIterator = new TopologicalOrderIterator(graph)
+    val graph = dependencyGraph()
+    val iterator = new TopologicalOrderIterator(graph)
 
     var failed = false
-    for (identifier <- JavaConversions.asScalaIterator(topologicalOrderIterator)
+    for (identifier <- JavaConversions.asScalaIterator(iterator)
          if !failed) {
-      try {
-        val info = identifierMap.get(identifier).get
-        plugins += info.createPlugin(getPluginInitializer(info))
-      } catch {
-        case e: Throwable =>
-          logger.error("Error instantiating plugin: " + identifier)
-          logger.catching(e)
-          infoSet.remove(identifierMap.get(identifier).get)
-          failed = true
+      if (instantiatedPlugins contains identifier) {
+        plugins += instantiatedPlugins.get(identifier).get
+      } else {
+        try {
+          val info = identifierMap.get(identifier).get
+          logger.debug("Instantiating plugin: " + identifier)
+          val p = validatePlugin(info.createPlugin(getPluginInitializer(info)), info)
+          plugins += p
+          instantiatedPlugins.put(identifier, p)
+        } catch {
+          case e: Throwable =>
+            logger.error("Error instantiating plugin: " + identifier)
+            logger.catching(e)
+            infoSet.remove(identifierMap.get(identifier).get)
+            failed = true
+        }
       }
     }
 
-    if (failed) reassemblePlugins(infoSet)
-    else plugins.toList
+    if (failed) {
+      reassemblePlugins()
+    } else {
+      logger.info("Finished building plugins")
+      plugins.toList
+    }
   }
 
-  private def getPluginInitializer(pluginInfo: PluginInfo): PluginInitializer = {
-    ??? // TODO: impl
+  private def getPluginInitializer(info: PluginInfo): PluginInitializer = {
+    val map: Map[Dependency[_ <: Plugin], Plugin] =
+      info.requiredDependencies.toStream.map(dep => (dep, instantiatedPlugins.get(dep.identifier).get)).toMap
+    // TODO: implement properly (logger)
+    new PluginInitializer(Core.core.logger, Core.core.eventBus, map)
   }
 
-  private def reassemblePlugins(infoSet: mutable.Set[PluginInfo]): List[_ <: Plugin] = {
-    pruneIfMissingDependencies(infoSet)
-    assemblePlugins(infoSet)
+  private def reassemblePlugins(): List[_ <: Plugin] = {
+    pruneIfMissingDependencies()
+    assemblePlugins()
+  }
+}
+
+private[load] object PluginAssembler {
+  def assembleFrom(infoSet: Set[PluginInfo]): List[_ <: Plugin] = {
+    new PluginAssembler(infoSet).assemble()
+  }
+
+  private def validInfo(info: PluginInfo): Boolean = {
+    info.identifier != null &&
+      info.requiredDependencies != null &&
+      info.version != null
+  }
+
+  @throws[NullPointerException]
+  @throws[IllegalStateException]
+  private def validatePlugin(plugin: Plugin, info: PluginInfo): Plugin = {
+    Objects.requireNonNull(plugin, "Plugin cannot be null")
+    if (plugin.info != info) {
+      throw new IllegalStateException("Plugin's info does not match PluginInfo which created it")
+    }
+    plugin
   }
 }
