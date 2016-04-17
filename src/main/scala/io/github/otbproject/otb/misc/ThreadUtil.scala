@@ -1,6 +1,6 @@
 package io.github.otbproject.otb.misc
 
-import java.util.concurrent.{ExecutorService, Executors, ThreadFactory}
+import java.util.concurrent._
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder
 
@@ -36,16 +36,35 @@ object ThreadUtil {
   }
 
   def newCachedThreadPool: ExecutorService = {
-    Executors.newCachedThreadPool(newThreadFactory)
+    newThreadPoolExecutor(newThreadFactory)
   }
 
   def newCachedThreadPool(nameFormat: String): ExecutorService = {
-    Executors.newCachedThreadPool(newThreadFactory(nameFormat))
+    newThreadPoolExecutor(newThreadFactory(nameFormat))
   }
 
   def interruptIfInterruptedException(e: Exception) {
     if (e.isInstanceOf[InterruptedException]) {
       Thread.currentThread.interrupt()
     }
+  }
+
+  private object ThreadPoolLimits {
+    val minPoolSize = 8
+    val maxPoolSize = 16
+    val threadTimeout = 60L
+    val maxQueueSize = 16
+  }
+
+  private def newThreadPoolExecutor(factory: ThreadFactory): ExecutorService = {
+    val pool = new ThreadPoolExecutor(
+      ThreadPoolLimits.minPoolSize,
+      ThreadPoolLimits.maxPoolSize,
+      ThreadPoolLimits.threadTimeout,
+      TimeUnit.SECONDS,
+      new LinkedBlockingQueue[Runnable](ThreadPoolLimits.maxQueueSize),
+      factory)
+    pool.allowCoreThreadTimeOut(true)
+    pool
   }
 }
