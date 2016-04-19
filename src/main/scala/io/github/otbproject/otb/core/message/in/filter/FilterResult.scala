@@ -50,11 +50,6 @@ object FilterResult {
     override protected val severity: Int = 10
   }
 
-  private[in] object None extends FilterResult {
-    override val name: String = "None"
-    override protected val severity: Int = 0
-  }
-
   object Warning { def apply(warningMessage: String): Warning = new Warning(warningMessage) }
 
   object Strike {

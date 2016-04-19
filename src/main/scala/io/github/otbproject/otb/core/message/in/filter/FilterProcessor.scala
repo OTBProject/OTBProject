@@ -31,9 +31,7 @@ private[otb] object FilterProcessor {
     )
 
     // Get the strictest FilterResult out of the Futures
-    val eventualResult = Future.fold[Option[FilterResult], FilterResult](futures)(FilterResult.None) {
-      (r, option) => if (option.isDefined) FilterResult.ordering.max(r, option.get) else r
-    }
+    val eventualResult = Future.sequence(futures).map(_.flatten.max)
     resultPromise.completeWith(eventualResult)
 
     // When it is finished finding the strictest FilterResult, try to
