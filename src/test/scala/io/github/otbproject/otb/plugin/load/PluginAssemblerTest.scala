@@ -10,9 +10,9 @@ class PluginAssemblerTest {
   @throws[Exception]
   def assembleFrom(): Unit = {
     val plugins = PluginAssembler.assembleFrom(Helper.infoSet)
-    assertEquals(2, plugins.size)
+    assertEquals(2, plugins.dependencyOrderedList.size)
 
-    val identifiers: List[PluginIdentifier[_ <: Plugin]] = plugins.map(_.info.identifier)
+    val identifiers: List[PluginIdentifier[_ <: Plugin]] = plugins.dependencyOrderedList.map(_.info.identifier)
 
     assertTrue(identifiers contains Helper.identifier(classOf[PSimpleValid]))
     assertTrue(identifiers contains Helper.identifier(classOf[PDepChain0]))
