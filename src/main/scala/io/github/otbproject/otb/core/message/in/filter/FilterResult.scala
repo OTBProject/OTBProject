@@ -5,6 +5,7 @@ sealed trait FilterResult extends Ordered[FilterResult] {
   protected val severity: Int
 
   override def compare(that: FilterResult): Int = this.severity compare that.severity
+  override def toString: String = name
 }
 
 object FilterResult {
@@ -25,9 +26,11 @@ object FilterResult {
     override protected val severity: Int = 3
 
     override def compare(that: FilterResult): Int =
-      that match {
-        case other: Purge => super.compare(other)
-        case other: Strike =>
+      (this, that) match {
+        case (_: Purge, _) | (_, _: Purge) =>
+          // If either term is a Purge
+          super.compare(that)
+        case (_, other: Strike) =>
           // Terms of comparison are reversed, so that a lower
           // outOfTotalStrikes compares as "larger"
           other.outOfTotalStrikes compare outOfTotalStrikes
@@ -38,6 +41,8 @@ object FilterResult {
   class Purge(warningMessage: String) extends Strike(warningMessage, minStrikeTotal) {
     override val name: String = "Purge"
     override protected val severity: Int = 4
+
+    override def compare(that: FilterResult): Int = super.compare(that)
   }
 
   class Timeout extends FilterResult {
