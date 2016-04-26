@@ -22,7 +22,7 @@ private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
   private val instantiatedPlugins: mutable.Map[PluginIdentifier[_], Plugin] = mutable.Map()
   private val infoSet = (mutable.Set.newBuilder ++= immutableSet).result
 
-  private def assemble(): List[_ <: Plugin] = {
+  private def assemble(): LoadedPlugins = {
     logger.info("Checking plugins")
 
     // Filter out PluginInfo with null identifiers
@@ -114,9 +114,9 @@ private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
     }
   }
 
-  private def dependencyGraph(): DirectedGraph[PluginIdentifier[_], DefaultEdge] = {
+  private def dependencyGraph(): DirectedGraph[PluginIdentifier[_ <: Plugin], DefaultEdge] = {
     val identifierMap = mapIdentifiers()
-    val graph = new SimpleDirectedGraph[PluginIdentifier[_], DefaultEdge](classOf[DefaultEdge])
+    val graph = new SimpleDirectedGraph[PluginIdentifier[_ <: Plugin], DefaultEdge](classOf[DefaultEdge])
 
     // Add PluginInfo as vertices
     infoSet.foreach(info => graph.addVertex(info.identifier))
@@ -135,7 +135,7 @@ private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
     infoSet.map(e => (e.identifier, e)).toMap
   }
 
-  private def assemblePlugins(): List[Plugin] = {
+  private def assemblePlugins(): LoadedPlugins = {
     val identifierMap = mapIdentifiers()
     val plugins = ListBuffer[Plugin]()
 
@@ -170,7 +170,8 @@ private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
       reassemblePlugins()
     } else {
       logger.info("Finished building plugins")
-      plugins.toList
+      val list = plugins.toList
+      LoadedPlugins(list, list.toStream.map(p => (p.info.identifier, p)).toMap, dependencyGraph())
     }
   }
 
@@ -181,14 +182,14 @@ private final class PluginAssembler private(immutableSet: Set[PluginInfo]) {
     new PluginInitializer(Core.core.logger, Core.core.eventBus, map)
   }
 
-  private def reassemblePlugins(): List[_ <: Plugin] = {
+  private def reassemblePlugins(): LoadedPlugins = {
     pruneIfMissingDependencies()
     assemblePlugins()
   }
 }
 
 private[load] object PluginAssembler {
-  def assembleFrom(infoSet: Set[PluginInfo]): List[_ <: Plugin] = {
+  def assembleFrom(infoSet: Set[PluginInfo]): LoadedPlugins = {
     new PluginAssembler(infoSet).assemble()
   }
 
